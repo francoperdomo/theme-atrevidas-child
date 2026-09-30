@@ -31,7 +31,7 @@
 <?php wp_body_open(); ?>
 
 <header class="fixed top-0 left-0 w-full z-50 bg-surface/95 backdrop-blur-md">
-    <div class="w-full bg-primary text-on-primary py-1.5 md:py-space-xs px-margin md:px-margin-desktop flex items-center justify-center">
+    <div class="w-full bg-black text-white py-1.5 md:py-space-xs px-margin md:px-margin-desktop flex items-center justify-center">
         <?php
         $gs_threshold       = (float) get_option( 'free_shipping_threshold', 100000 );
         $gs_transfer        = (float) get_option( 'transfer_discount_percentage', 5 );
@@ -84,7 +84,7 @@
                 }
                 ?>
             </nav>
-            <button aria-label="Menu" class="xl:hidden text-primary p-2 -ml-2 flex items-center justify-center min-w-[44px] min-h-[44px] cursor-pointer bg-transparent border-none" type="button" id="open-mobile-menu">
+            <button aria-label="Menu" class="xl:hidden text-on-surface hover:text-primary p-2 -ml-2 flex items-center justify-center min-w-[44px] min-h-[44px] cursor-pointer bg-transparent border-none transition-colors" type="button" id="open-mobile-menu">
                 <span class="material-symbols-outlined text-[24px]">menu</span>
             </button>
         </div>
@@ -106,15 +106,15 @@
         </div>
         
         <div class="flex-1 flex items-center justify-end gap-1 sm:gap-2 md:gap-space-md">
-            <button aria-label="Buscar" class="text-primary hover:text-secondary transition-colors p-2 flex items-center justify-center min-w-[40px] min-h-[40px] cursor-pointer bg-transparent border-none" type="button" id="open-search-modal">
+            <button aria-label="Buscar" class="text-on-surface hover:text-primary transition-colors p-2 flex items-center justify-center min-w-[40px] min-h-[40px] cursor-pointer bg-transparent border-none" type="button" id="open-search-modal">
                 <span class="material-symbols-outlined text-[20px] md:text-[22px]">search</span>
             </button>
-            <a aria-label="Mi Cuenta" class="hidden md:flex text-primary hover:text-secondary transition-colors p-2 items-center justify-center" href="<?php echo wc_get_page_permalink( 'myaccount' ); ?>">
+            <a aria-label="Mi Cuenta" class="hidden md:flex text-on-surface hover:text-primary transition-colors p-2 items-center justify-center" href="<?php echo wc_get_page_permalink( 'myaccount' ); ?>">
                 <span class="material-symbols-outlined text-[20px] md:text-[22px]">person</span>
             </a>
-            <a aria-label="Carrito de compras" class="text-primary hover:text-secondary transition-colors p-2 flex items-center gap-1 sm:gap-space-xs group toggle-cart-drawer cursor-pointer min-h-[40px]" href="#">
+            <a aria-label="Carrito de compras" class="text-on-surface hover:text-primary transition-colors p-2 flex items-center gap-1 sm:gap-space-xs group toggle-cart-drawer cursor-pointer min-h-[40px]" href="#">
                 <span class="material-symbols-outlined text-[20px] md:text-[22px]">shopping_bag</span>
-                <span class="font-label-numeric text-label-numeric bg-primary text-on-primary w-4 h-4 rounded-full flex items-center justify-center text-[10px]"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                <span class="font-label-numeric text-label-numeric bg-primary text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px]"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
             </a>
         </div>
     </div>
