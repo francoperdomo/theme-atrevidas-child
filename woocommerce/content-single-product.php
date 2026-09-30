@@ -193,7 +193,7 @@ if ( post_password_required() ) {
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">credit_card</span>
                                         <div>
-                                            <strong class="text-primary block font-medium">Cuotas con Mercado Pago</strong>
+                                            <strong class="text-on-surface block font-medium">Cuotas con Mercado Pago</strong>
                                             <span>Aceptamos todas las tarjetas de crédito y débito a través de la pasarela segura de Mercado Pago.</span>
                                         </div>
                                     </div>
@@ -201,7 +201,7 @@ if ( post_password_required() ) {
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">account_balance</span>
                                         <div>
-                                            <strong class="text-primary block font-medium"><?php echo esc_html( $transfer_pct_label ); ?>% OFF por Transferencia</strong>
+                                            <strong class="text-on-surface block font-medium"><?php echo esc_html( $transfer_pct_label ); ?>% OFF por Transferencia</strong>
                                             <span>Descuento automático aplicado directamente al seleccionar transferencia bancaria como medio de pago.</span>
                                         </div>
                                     </div>
@@ -210,7 +210,7 @@ if ( post_password_required() ) {
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">payments</span>
                                         <div>
-                                            <strong class="text-primary block font-medium"><?php echo esc_html( $cod_pct_label ); ?>% OFF en Efectivo (Contrareembolso)</strong>
+                                            <strong class="text-on-surface block font-medium"><?php echo esc_html( $cod_pct_label ); ?>% OFF en Efectivo (Contrareembolso)</strong>
                                             <span>Válido abonando en efectivo contra entrega únicamente para pedidos con destino en CABA y Gran Buenos Aires.</span>
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@ if ( post_password_required() ) {
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">redeem</span>
                                         <div>
-                                            <strong class="text-primary block font-medium">Envío Bonificado desde <?php echo wc_price( $free_shipping_threshold ); ?></strong>
+                                            <strong class="text-on-surface block font-medium">Envío Bonificado desde <?php echo wc_price( $free_shipping_threshold ); ?></strong>
                                             <span>Superando este monto en tu carrito, el envío gratis a toda la Argentina se activa de forma automática.</span>
                                         </div>
                                     </div>
@@ -244,21 +244,21 @@ if ( post_password_required() ) {
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">local_shipping</span>
                                         <div>
-                                            <strong class="text-primary block font-medium">Envíos a todo el país</strong>
+                                            <strong class="text-on-surface block font-medium">Envíos a todo el país</strong>
                                             <span>Despachos diarios a través de Correo Argentino con código de seguimiento en tiempo real.</span>
                                         </div>
                                     </div>
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">two_wheeler</span>
                                         <div>
-                                            <strong class="text-primary block font-medium">Moto Express (CABA & GBA)</strong>
+                                            <strong class="text-on-surface block font-medium">Moto Express (CABA & GBA)</strong>
                                             <span>Servicio de mensajería rápida para entregas directas en el día o dentro de las 24-48 hs hábiles.</span>
                                         </div>
                                     </div>
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">storefront</span>
                                         <div>
-                                            <strong class="text-primary block font-medium">Retiro sin cargo en Haedo</strong>
+                                            <strong class="text-on-surface block font-medium">Retiro sin cargo en Haedo</strong>
                                             <span>Podés retirar tu pedido sin costo en nuestro punto de entrega oficial ubicado en Haedo, Gran Buenos Aires.</span>
                                         </div>
                                     </div>

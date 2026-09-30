@@ -47,7 +47,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                                 <?php if ( empty( $product_permalink ) ) : ?>
                                     <?php echo wp_kses_post( $product_name ); ?>
                                 <?php else : ?>
-                                    <a class="text-primary hover:text-secondary transition-colors" href="<?php echo esc_url( $product_permalink ); ?>">
+                                    <a class="text-on-surface hover:text-secondary transition-colors" href="<?php echo esc_url( $product_permalink ); ?>">
                                         <?php echo wp_kses_post( $product_name ); ?>
                                     </a>
                                 <?php endif; ?>
@@ -109,7 +109,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
     ?>
     <div class="gs-mini-cart-transfer-incentive bg-surface-container-low p-3 mb-4 flex items-center justify-between text-secondary font-body-sm text-[12px] border-l-2 border-primary">
         <div>
-            <span class="text-primary font-medium block">o <?php echo wc_price( $transfer_total ); ?> con transferencia</span>
+            <span class="text-on-surface font-medium block">o <?php echo wc_price( $transfer_total ); ?> con transferencia</span>
             <span class="text-[11px] text-secondary">Ahorrás <?php echo wc_price( $savings ); ?> (<?php echo esc_html( $pct_label ); ?>% OFF)</span>
         </div>
         <span class="material-symbols-outlined text-on-surface text-xl">account_balance</span>

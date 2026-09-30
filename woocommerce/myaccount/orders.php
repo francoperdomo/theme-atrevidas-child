@@ -56,7 +56,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders );
 										<?php do_action( 'woocommerce_my_account_my_orders_column_' . $column_id, $order ); ?>
 
 									<?php elseif ( $is_order_number ) : ?>
-										<a href="<?php echo esc_url( $order->get_view_order_url() ); ?>" class="text-primary hover:underline" aria-label="<?php echo esc_attr( sprintf( __( 'View order number %s', 'woocommerce' ), $order->get_order_number() ) ); ?>">
+										<a href="<?php echo esc_url( $order->get_view_order_url() ); ?>" class="text-on-surface hover:underline" aria-label="<?php echo esc_attr( sprintf( __( 'View order number %s', 'woocommerce' ), $order->get_order_number() ) ); ?>">
 											<?php echo esc_html( '#' . $order->get_order_number() ); ?>
 										</a>
 
