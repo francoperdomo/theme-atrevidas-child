@@ -69,9 +69,9 @@ do_action( 'woocommerce_before_cart' ); ?>
                     if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
                         $product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
                         ?>
-                        <article class="bg-surface-container-lowest p-space-md shadow-sm transition-all hover:shadow-md flex flex-col sm:flex-row gap-space-md items-start relative group">
+                        <article class="bg-surface-container-lowest p-3 md:p-space-md shadow-sm transition-all flex flex-row gap-3 md:gap-space-md items-stretch relative group border-b border-surface-container/30">
                             <!-- Image -->
-                            <div class="w-full sm:w-36 h-48 bg-surface-container-low overflow-hidden flex-shrink-0 relative">
+                            <div class="w-24 md:w-36 h-32 md:h-48 bg-surface-container-low overflow-hidden shrink-0 relative rounded-sm">
                                 <?php
                                 $thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image('woocommerce_thumbnail', array('class' => 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105')), $cart_item, $cart_item_key );
                                 if ( ! $product_permalink ) {
@@ -82,10 +82,11 @@ do_action( 'woocommerce_before_cart' ); ?>
                                 ?>
                             </div>
                             
-                            <div class="flex-1 flex flex-col justify-between h-full w-full space-y-space-sm">
-                                <div class="flex justify-between items-start gap-space-sm">
-                                    <div>
-                                        <h2 class="font-headline-sm text-headline-sm text-on-surface">
+                            <!-- Content -->
+                            <div class="flex-1 flex flex-col justify-between w-full py-1">
+                                <div class="flex justify-between items-start gap-2">
+                                    <div class="pr-2">
+                                        <h2 class="font-headline-sm text-[13px] md:text-[16px] text-on-surface font-medium leading-tight md:leading-normal line-clamp-2 md:line-clamp-none">
                                             <?php
                                             if ( ! $product_permalink ) {
                                                 echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;' );
@@ -94,12 +95,12 @@ do_action( 'woocommerce_before_cart' ); ?>
                                             }
                                             ?>
                                         </h2>
-                                        <div class="font-body-sm text-body-sm text-secondary mt-0.5">
+                                        <div class="font-body-sm text-[11px] md:text-body-sm text-secondary mt-1">
                                             <?php echo wc_get_formatted_cart_item_data( $cart_item ); // Muestra variaciones como Talle y Color ?>
                                         </div>
                                     </div>
-                                    <div class="text-right">
-                                        <span class="font-label-numeric text-[17px] font-semibold text-on-surface block">
+                                    <div class="text-right shrink-0">
+                                        <span class="font-label-numeric text-[14px] md:text-[17px] font-bold text-on-surface block">
                                             <?php
                                             echo apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key ); 
                                             ?>
