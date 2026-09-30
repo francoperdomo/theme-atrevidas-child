@@ -9,3 +9,30 @@
     --radius-xl: 1.5rem;
     --radius-btn: 9999px; /* Botones ovalados (pill) */
 }
+
+/* Fix para grillas de shortcodes de WooCommerce en la portada */
+.gs-product-grid-wrapper ul.products {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+@media (min-width: 768px) {
+    .gs-product-grid-wrapper ul.products {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+}
+@media (min-width: 1024px) {
+    .gs-product-grid-wrapper ul.products {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 2rem;
+    }
+}
+.gs-product-grid-wrapper ul.products li.product {
+    width: 100% !important;
+    margin: 0 !important;
+    clear: none !important;
+}
