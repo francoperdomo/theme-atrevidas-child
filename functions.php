@@ -15,8 +15,7 @@ function simple_woo_child_enqueue_styles() {
 }
 
 /**
- * Añadir opciones al Personalizador (Apariencia > Personalizar) 
- * para gestionar las imágenes del Hero Split Screen dinámicamente.
+ * Añadir opciones al Personalizador para gestionar imágenes dinámicas.
  */
 add_action( 'customize_register', 'atrevidas_customize_register' );
 function atrevidas_customize_register( $wp_customize ) {
@@ -25,25 +24,42 @@ function atrevidas_customize_register( $wp_customize ) {
         'priority' => 30,
     ) );
 
-    // Imagen Lencería
-    $wp_customize->add_setting( 'atrevidas_hero_lenceria', array(
-        'default'   => '',
-        'transport' => 'refresh',
-    ) );
+    $wp_customize->add_setting( 'atrevidas_hero_lenceria', array( 'default' => '', 'transport' => 'refresh' ) );
     $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_lenceria', array(
-        'label'    => __( 'Imagen Mitad Lencería', 'theme-simple-woo' ),
-        'section'  => 'atrevidas_hero_section',
-        'settings' => 'atrevidas_hero_lenceria',
+        'label' => __( 'Imagen Mitad Lencería', 'theme-simple-woo' ), 'section' => 'atrevidas_hero_section', 'settings' => 'atrevidas_hero_lenceria'
     ) ) );
 
-    // Imagen Juguetes
-    $wp_customize->add_setting( 'atrevidas_hero_juguetes', array(
-        'default'   => '',
-        'transport' => 'refresh',
-    ) );
+    $wp_customize->add_setting( 'atrevidas_hero_juguetes', array( 'default' => '', 'transport' => 'refresh' ) );
     $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_juguetes', array(
-        'label'    => __( 'Imagen Mitad Juguetes', 'theme-simple-woo' ),
-        'section'  => 'atrevidas_hero_section',
-        'settings' => 'atrevidas_hero_juguetes',
+        'label' => __( 'Imagen Mitad Juguetes', 'theme-simple-woo' ), 'section' => 'atrevidas_hero_section', 'settings' => 'atrevidas_hero_juguetes'
     ) ) );
+}
+
+/**
+ * Función Recursiva para automatizar el Mega Menú de WooCommerce.
+ * Extrae toda la jerarquía de categorías respetando el orden manual (menu_order).
+ */
+function atrevidas_get_category_tree( $parent_id = 0 ) {
+    $terms = get_terms( array(
+        'taxonomy'   => 'product_cat',
+        'hide_empty' => true,
+        'parent'     => $parent_id,
+        'orderby'    => 'menu_order',
+        'order'      => 'ASC',
+    ) );
+    
+    $tree = array();
+    if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+        foreach ( $terms as $term ) {
+            // Excluir la categoría por defecto de WooCommerce
+            if ( $term->slug === 'uncategorized' || $term->slug === 'sin-categorizar' ) {
+                continue;
+            }
+            $tree[] = array(
+                'term'     => $term,
+                'children' => atrevidas_get_category_tree( $term->term_id ),
+            );
+        }
+    }
+    return $tree;
 }
