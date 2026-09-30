@@ -36,3 +36,15 @@
     margin: 0 !important;
     clear: none !important;
 }
+
+/* Fix para altura del Hero (evita depender de compilación de Tailwind en el child theme) */
+.gs-hero-split {
+    height: 85vh;
+    min-height: 600px;
+}
+@media (min-width: 768px) {
+    .gs-hero-split {
+        height: 65vh;
+        min-height: 500px;
+    }
+}

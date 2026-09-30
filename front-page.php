@@ -12,7 +12,7 @@ $img_juguetes = get_theme_mod( 'atrevidas_hero_juguetes' ) ?: 'https://via.place
 <main class="pt-[96px] md:pt-[118px] bg-surface min-h-screen">
     
     <!-- 1. Hero Split Screen (Dinámico) -->
-    <section class="w-full grid grid-cols-1 md:grid-cols-2 h-[85vh] min-h-[600px] md:h-[65vh] md:min-h-[500px]">
+    <section class="w-full grid grid-cols-1 md:grid-cols-2 gs-hero-split">
         <!-- Mitad: Lencería -->
         <a href="<?php echo home_url('/categoria-producto/lenceria/'); ?>" 
            class="relative group flex flex-col justify-end p-margin md:p-margin-desktop bg-surface-container overflow-hidden"
