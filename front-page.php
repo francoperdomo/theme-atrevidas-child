@@ -8,7 +8,6 @@ $img_lenceria = get_theme_mod( 'atrevidas_hero_lenceria' ) ?: 'https://via.place
 $img_juguetes = get_theme_mod( 'atrevidas_hero_juguetes' ) ?: 'https://via.placeholder.com/800x800/222222/dd1a83?text=Sube+tu+imagen+Juguetes+en+Apariencia>Personalizar';
 ?>
 
-<main class="pt-[96px] md:pt-[118px] bg-surface min-h-screen">
     
     <!-- 1. Hero Split Screen (Premium Cards) -->
     <section class="w-full px-4 sm:px-6 lg:px-8 py-6 md:py-8 bg-surface">
@@ -95,6 +94,5 @@ $img_juguetes = get_theme_mod( 'atrevidas_hero_juguetes' ) ?: 'https://via.place
         </div>
     </section>
 
-</main>
 
 <?php get_footer(); ?>
