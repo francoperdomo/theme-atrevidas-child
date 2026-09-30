@@ -36,7 +36,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
     <?php if ( ! is_user_logged_in() && 'yes' === get_option( 'woocommerce_enable_checkout_login_reminder' ) ) : ?>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start mb-space-xl">
             <div class="lg:col-span-12">
-                <div class="bg-surface-container-lowest p-space-lg shadow-sm border-l-4 border-primary">
+                <div class="bg-surface-container-lowest p-space-lg shadow-sm border-l-4 border-black">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="flex flex-col">
                             <h3 class="font-headline-sm text-[16px] uppercase tracking-tight text-on-surface">¿Ya sos cliente?</h3>
@@ -69,11 +69,11 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                     <div class="grid grid-cols-3 gap-space-xs">
                         <div class="flex flex-col gap-1">
                             <span class="font-label-caps text-[9px] uppercase tracking-widest text-on-surface font-bold">01 / Identificación</span>
-                            <div class="h-[2px] w-full bg-primary"></div>
+                            <div class="h-[1px] w-full bg-black/20"></div>
                         </div>
                         <div class="flex flex-col gap-1">
                             <span class="font-label-caps text-[9px] uppercase tracking-widest text-on-surface font-bold">02 / Envío</span>
-                            <div class="h-[2px] w-full bg-primary"></div>
+                            <div class="h-[1px] w-full bg-black/20"></div>
                         </div>
                         <div class="flex flex-col gap-1">
                             <span class="font-label-caps text-[9px] uppercase tracking-widest text-secondary">03 / Pago</span>
@@ -92,7 +92,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                     <div class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md" id="customer_details">
                         <div class="flex items-baseline justify-between">
                             <div class="flex items-center gap-2">
-                                <span class="font-label-caps text-label-caps bg-primary text-on-primary px-2 py-0.5">02</span>
+                                <span class="font-label-caps text-label-caps bg-black text-white px-2 py-0.5">02</span>
                                 <h2 class="font-headline-sm text-headline-sm uppercase text-on-surface tracking-tight">Datos de Entrega & Contacto</h2>
                             </div>
                         </div>
@@ -109,7 +109,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                 <div class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
                     <div class="flex items-baseline justify-between">
                         <div class="flex items-center gap-2">
-                            <span class="font-label-caps text-label-caps bg-primary text-on-primary px-2 py-0.5">03</span>
+                            <span class="font-label-caps text-label-caps bg-black text-white px-2 py-0.5">03</span>
                             <h2 class="font-headline-sm text-headline-sm uppercase text-on-surface tracking-tight">Forma de Pago</h2>
                         </div>
                     </div>
@@ -140,8 +140,8 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                 <div class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-3 border border-surface-variant">
                     <label class="font-headline-sm text-[14px] uppercase tracking-tight text-on-surface">¿Tenés un código de descuento?</label>
                     <div class="flex gap-0">
-                        <input type="text" id="gs-fake-coupon-input" class="w-full bg-surface px-4 py-3 border-y border-l border-surface-variant text-body-md focus:outline-none focus:border-primary transition-colors" placeholder="Ej. GROW2026">
-                        <button type="button" id="gs-fake-coupon-btn" class="bg-primary text-on-primary px-6 py-3 font-label-caps uppercase text-[12px] tracking-wider hover:bg-secondary transition-colors shrink-0">Aplicar</button>
+                        <input type="text" id="gs-fake-coupon-input" class="w-full bg-surface px-4 py-3 border-y border-l border-surface-variant text-body-md focus:outline-none focus:border-black transition-colors" placeholder="Ej. GROW2026">
+                        <button type="button" id="gs-fake-coupon-btn" class="bg-black text-on-primary px-6 py-3 font-label-caps uppercase text-[12px] tracking-wider hover:bg-secondary transition-colors shrink-0">Aplicar</button>
                     </div>
                 </div>
                 <?php endif; ?>

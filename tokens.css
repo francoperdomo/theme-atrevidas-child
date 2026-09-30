@@ -48,3 +48,28 @@
         min-height: 500px;
     }
 }
+
+/* ==========================================================================
+   NEUTRALIZACIÓN DEL CHECKOUT (Sobreescritura de inyecciones del Core)
+   ========================================================================== */
+.woocommerce-checkout .text-primary {
+    color: var(--color-on-surface) !important;
+}
+.woocommerce-checkout .border-primary {
+    border-color: #111111 !important;
+}
+.woocommerce-checkout .bg-primary:not(#place_order) {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+}
+
+/* Mantener el Fucsia ÚNICAMENTE en el botón final de pago (CTA Supremo) */
+.woocommerce-checkout button#place_order {
+    background-color: rgb(var(--color-primary-rgb)) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px 0 rgba(var(--color-primary-rgb), 0.3) !important;
+    opacity: 1 !important;
+}
+.woocommerce-checkout button#place_order:hover {
+    opacity: 0.9 !important;
+}

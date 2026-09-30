@@ -29,12 +29,12 @@ defined( 'ABSPATH' ) || exit;
 
 				<div class="flex flex-col md:flex-row gap-3">
 					<a href="<?php echo esc_url( $order->get_checkout_payment_url() ); ?>"
-					   class="gs-thankyou-actions"><span class="gs-btn-primary block text-center py-4 px-6 font-label-caps text-label-caps uppercase tracking-[0.16em] font-bold bg-primary text-on-primary hover:bg-neutral-800 transition-colors no-underline">
+					   class="gs-thankyou-actions"><span class="gs-btn-primary block text-center py-4 px-6 font-label-caps text-label-caps uppercase tracking-[0.16em] font-bold bg-black text-white hover:bg-neutral-800 transition-colors no-underline">
 						<?php esc_html_e( 'Reintentar pago', 'woocommerce' ); ?>
 					</span></a>
 					<?php if ( is_user_logged_in() ) : ?>
 						<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"
-						   class="block text-center py-4 px-6 font-label-caps text-label-caps uppercase tracking-[0.16em] font-bold border border-primary text-on-surface hover:bg-surface-container-low transition-colors no-underline">
+						   class="block text-center py-4 px-6 font-label-caps text-label-caps uppercase tracking-[0.16em] font-bold border border-black text-on-surface hover:bg-surface-container-low transition-colors no-underline">
 							<?php esc_html_e( 'Mi cuenta', 'woocommerce' ); ?>
 						</a>
 					<?php endif; ?>
@@ -44,7 +44,7 @@ defined( 'ABSPATH' ) || exit;
 
 				<!-- ✓ Success header -->
 				<div class="flex flex-col items-center text-center mb-8">
-					<div class="w-10 h-10 bg-primary text-on-primary flex items-center justify-center mb-4">
+					<div class="w-10 h-10 bg-black text-white flex items-center justify-center mb-4">
 						<span class="material-symbols-outlined text-[20px]">check</span>
 					</div>
 					<h1 class="font-headline-md text-headline-md text-on-surface mb-2">
@@ -128,7 +128,7 @@ defined( 'ABSPATH' ) || exit;
 		<?php else : ?>
 
 			<div class="flex flex-col items-center text-center">
-				<div class="w-10 h-10 bg-primary text-on-primary flex items-center justify-center mb-4">
+				<div class="w-10 h-10 bg-black text-white flex items-center justify-center mb-4">
 					<span class="material-symbols-outlined text-[20px]">check</span>
 				</div>
 				<h1 class="font-headline-md text-headline-md text-on-surface mb-2">
