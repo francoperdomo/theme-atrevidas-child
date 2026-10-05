@@ -55,13 +55,17 @@
 .woocommerce-checkout .text-primary,
 .single-product .text-primary,
 .woocommerce-account .text-primary,
-.woocommerce-cart .text-primary {
+.woocommerce-cart .text-primary,
+.woocommerce-order .text-primary,
+.widget_shopping_cart .text-primary {
     color: var(--color-on-surface) !important;
 }
-.woocommerce-checkout .border-primary {
+.woocommerce-checkout .border-primary,
+.woocommerce-order .border-primary {
     border-color: #111111 !important;
 }
-.woocommerce-checkout .bg-primary:not(#place_order) {
+.woocommerce-checkout .bg-primary:not(#place_order),
+.woocommerce-order .bg-primary:not(#place_order) {
     background-color: #111111 !important;
     color: #ffffff !important;
 }
