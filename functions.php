@@ -12,6 +12,14 @@ function simple_woo_child_enqueue_styles() {
         array('simple-woo-style'),
         wp_get_theme()->get('Version')
     );
+
+    // Encolar estilo principal del child theme para overrides CSS
+    wp_enqueue_style(
+        'simple-woo-child-style',
+        get_stylesheet_uri(),
+        array('simple-woo-child-tokens'),
+        filemtime( get_stylesheet_directory() . '/style.css' )
+    );
 }
 
 /**
