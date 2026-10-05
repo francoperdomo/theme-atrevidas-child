@@ -45,59 +45,59 @@
         </p>
     </div>
     <div class="h-16 md:h-20 lg:h-24 w-full px-margin md:px-margin-desktop flex items-center justify-between relative">
-        <div class="flex-1 flex items-center">
-            <nav class="hidden xl:flex items-center gap-space-md xl:gap-space-lg">
+        <div class="flex-1 flex items-center atr-nav-host">
+            <nav class="hidden xl:flex items-center gap-space-md xl:gap-space-lg atr-nav" aria-label="Categorías">
                 <?php
                 $category_tree = function_exists('atrevidas_get_category_tree') ? atrevidas_get_category_tree() : array();
                 if ( ! empty( $category_tree ) ) {
-                    echo '<ul class="flex items-center h-full m-0 p-0 list-none">';
+                    echo '<ul class="flex items-center h-full m-0 p-0 list-none atr-nav__list">';
                     foreach ( $category_tree as $node ) {
                         $term = $node['term'];
                         $has_children = ! empty( $node['children'] );
                         $link = get_term_link( $term );
                         
-                        echo '<li class="group flex items-center h-full">';
+                        echo '<li class="group flex items-center h-full atr-nav__item">';
                         // Botón Parent
-                        echo '<a href="' . esc_url( $link ) . '" class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors py-6 px-3 whitespace-nowrap flex items-center gap-1">';
+                        echo '<a href="' . esc_url( $link ) . '" class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors py-6 px-3 whitespace-nowrap flex items-center gap-1"' . ( $has_children ? ' aria-haspopup="true"' : '' ) . '>';
                         echo esc_html( $term->name );
                         if ($has_children) {
-                            echo '<span class="material-symbols-outlined text-[16px]">expand_more</span>';
+                            echo '<span class="material-symbols-outlined text-[16px]" aria-hidden="true">expand_more</span>';
                         }
                         echo '</a>';
                         
                         // Panel Mega Menu Hover (Hijos & Nietos)
+                        // La visibilidad, el puente anti-cierre y el retardo de intención se controlan en style.css (.atr-mega)
                         if ( $has_children ) {
-                            // Wrapper con puente invisible (pt-8 -mt-8) para evitar que el hover se pierda al mover el mouse en diagonal
-                            echo '<div class="absolute top-full left-0 w-full hidden group-hover:block z-[100] pt-8 -mt-8">';
+                            echo '<div class="atr-mega">';
                             // Panel visible
-                            echo '<div class="bg-surface shadow-2xl border-t-2 border-primary overflow-hidden px-margin md:px-margin-desktop py-10" style="border-bottom-left-radius: var(--radius-xl); border-bottom-right-radius: var(--radius-xl);">';
-                            // Grilla fluida (Auto-fit)
-                            echo '<div class="grid gap-x-12 gap-y-10 max-w-[1400px] mx-auto" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">';
+                            echo '<div class="atr-mega__panel bg-surface shadow-2xl border-t-2 border-primary px-margin md:px-margin-desktop py-10">';
+                            // Grilla fluida (auto-fill)
+                            echo '<div class="atr-mega__grid">';
                             
                             foreach ( $node['children'] as $child_node ) {
                                 $child_term = $child_node['term'];
                                 $child_link = get_term_link( $child_term );
                                 $has_grandchildren = ! empty( $child_node['children'] );
 
-                                echo '<div class="flex flex-col gap-3">';
+                                echo '<div class="atr-mega__col">';
                                 // Título de la columna (Nivel 2)
                                 if ( $has_grandchildren ) {
-                                    echo '<a href="' . esc_url( $child_link ) . '" class="font-headline-sm text-[16px] text-on-surface font-semibold hover:text-primary transition-colors border-b border-surface-variant pb-2 mb-1 flex items-center justify-between group/title">';
+                                    echo '<a href="' . esc_url( $child_link ) . '" class="atr-mega__title atr-mega__title--parent font-headline-sm text-on-surface hover:text-primary transition-colors">';
                                     echo esc_html( $child_term->name );
-                                    echo '<span class="material-symbols-outlined text-[16px] text-secondary group-hover/title:text-primary transition-colors">chevron_right</span>';
+                                    echo '<span class="material-symbols-outlined atr-mega__chevron" aria-hidden="true">chevron_right</span>';
                                     echo '</a>';
                                     
                                     // Lista de sub-subcategorías (Nivel 3)
-                                    echo '<ul class="m-0 p-0 list-none flex flex-col gap-2">';
+                                    echo '<ul class="atr-mega__sublist">';
                                     foreach ( $child_node['children'] as $grandchild_node ) {
                                         $grandchild_term = $grandchild_node['term'];
                                         $grandchild_link = get_term_link( $grandchild_term );
-                                        echo '<li><a href="' . esc_url( $grandchild_link ) . '" class="font-body-md text-secondary hover:text-primary transition-colors block py-0.5">' . esc_html( $grandchild_term->name ) . '</a></li>';
+                                        echo '<li><a href="' . esc_url( $grandchild_link ) . '" class="atr-mega__sublink font-body-md text-secondary hover:text-primary transition-colors">' . esc_html( $grandchild_term->name ) . '</a></li>';
                                     }
                                     echo '</ul>';
                                 } else {
                                     // Nivel 2 simple (sin hijos)
-                                    echo '<a href="' . esc_url( $child_link ) . '" class="font-headline-sm text-[16px] text-on-surface font-medium hover:text-primary transition-colors inline-block pb-2">';
+                                    echo '<a href="' . esc_url( $child_link ) . '" class="atr-mega__title font-headline-sm text-on-surface hover:text-primary transition-colors">';
                                     echo esc_html( $child_term->name );
                                     echo '</a>';
                                 }
@@ -107,12 +107,12 @@
                             echo '</div>'; // End grid
 
                             // Call to action de la categoría principal
-                            echo '<div class="mt-8 pt-6 border-t border-surface-variant flex justify-end max-w-[1400px] mx-auto">';
-                            echo '<a href="' . esc_url( $link ) . '" class="inline-flex items-center gap-2 font-label-caps text-label-caps uppercase tracking-widest text-primary hover:opacity-80 transition-opacity font-bold">Ver toda la colección ' . esc_html( $term->name ) . ' <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>';
+                            echo '<div class="atr-mega__footer">';
+                            echo '<a href="' . esc_url( $link ) . '" class="inline-flex items-center gap-2 font-label-caps text-label-caps uppercase tracking-widest text-primary hover:opacity-80 transition-opacity font-bold">Ver toda la colección ' . esc_html( $term->name ) . ' <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_forward</span></a>';
                             echo '</div>';
 
                             echo '</div>'; // End visible panel
-                            echo '</div>'; // End wrapper bridge
+                            echo '</div>'; // End atr-mega
                         }
                         echo '</li>';
                     }
