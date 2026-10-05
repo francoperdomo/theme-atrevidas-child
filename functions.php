@@ -71,3 +71,10 @@ function atrevidas_get_category_tree( $parent_id = 0 ) {
     }
     return $tree;
 }
+
+/**
+ * Ocultar SKU en el frontend (pero mantenerlo en el backend para inventario)
+ */
+if ( ! is_admin() ) {
+    add_filter( 'wc_product_sku_enabled', '__return_false' );
+}
