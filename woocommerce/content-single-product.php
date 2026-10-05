@@ -337,6 +337,9 @@ if ( post_password_required() ) {
     </section>
     <?php endif; ?>
 
+    <!-- Related Products -->
+    <?php woocommerce_output_related_products(); ?>
+
     <!-- Verified Client Reviews Section -->
     <?php if ( comments_open() || get_comments_number() ) : ?>
     <section class="w-full px-margin md:px-margin-desktop py-space-2xl bg-surface border-t border-surface-container mt-space-xl" id="product-reviews-section">
