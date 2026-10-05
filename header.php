@@ -67,8 +67,8 @@
                         
                         // Panel Mega Menu Hover (Hijos & Nietos)
                         if ( $has_children ) {
-                            // Wrapper con puente invisible (pt-4 -mt-4) para evitar que el hover se pierda al mover el mouse en diagonal
-                            echo '<div class="absolute top-full left-0 w-full hidden group-hover:block z-[100] pt-4 -mt-4">';
+                            // Wrapper con puente invisible (pt-8 -mt-8) para evitar que el hover se pierda al mover el mouse en diagonal
+                            echo '<div class="absolute top-full left-0 w-full hidden group-hover:block z-[100] pt-8 -mt-8">';
                             // Panel visible
                             echo '<div class="bg-surface shadow-2xl border-t-2 border-primary overflow-hidden px-margin md:px-margin-desktop py-10" style="border-bottom-left-radius: var(--radius-xl); border-bottom-right-radius: var(--radius-xl);">';
                             // Grilla fluida (Auto-fit)
