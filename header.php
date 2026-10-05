@@ -65,18 +65,49 @@
                         }
                         echo '</a>';
                         
-                        // Panel Mega Menu Hover (Hijos)
+                        // Panel Mega Menu Hover (Hijos & Nietos)
                         if ( $has_children ) {
-                            echo '<div class="absolute top-full left-0 hidden group-hover:block bg-surface shadow-2xl min-w-[260px] z-[100] border-t-2 border-primary rounded-b-xl overflow-hidden py-2">';
-                            echo '<ul class="m-0 p-0 list-none flex flex-col">';
+                            echo '<div class="absolute top-full left-0 hidden group-hover:block bg-surface shadow-2xl min-w-[600px] max-w-[900px] w-max z-[100] border-t-2 border-primary overflow-hidden p-8" style="border-bottom-left-radius: var(--radius-xl); border-bottom-right-radius: var(--radius-xl);">';
+                            echo '<div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">';
+                            
                             foreach ( $node['children'] as $child_node ) {
                                 $child_term = $child_node['term'];
                                 $child_link = get_term_link( $child_term );
-                                echo '<li><a href="' . esc_url( $child_link ) . '" class="block px-6 py-3 font-body-md text-secondary hover:text-primary hover:bg-surface-container/50 transition-colors">' . esc_html( $child_term->name ) . '</a></li>';
+                                $has_grandchildren = ! empty( $child_node['children'] );
+
+                                echo '<div class="flex flex-col gap-3">';
+                                // Título de la columna (Nivel 2)
+                                if ( $has_grandchildren ) {
+                                    echo '<a href="' . esc_url( $child_link ) . '" class="font-headline-sm text-[16px] text-on-surface font-semibold hover:text-primary transition-colors border-b border-surface-variant pb-2 mb-1 flex items-center justify-between group/title">';
+                                    echo esc_html( $child_term->name );
+                                    echo '<span class="material-symbols-outlined text-[16px] text-secondary group-hover/title:text-primary transition-colors">chevron_right</span>';
+                                    echo '</a>';
+                                    
+                                    // Lista de sub-subcategorías (Nivel 3)
+                                    echo '<ul class="m-0 p-0 list-none flex flex-col gap-2">';
+                                    foreach ( $child_node['children'] as $grandchild_node ) {
+                                        $grandchild_term = $grandchild_node['term'];
+                                        $grandchild_link = get_term_link( $grandchild_term );
+                                        echo '<li><a href="' . esc_url( $grandchild_link ) . '" class="font-body-md text-secondary hover:text-primary transition-colors block py-0.5">' . esc_html( $grandchild_term->name ) . '</a></li>';
+                                    }
+                                    echo '</ul>';
+                                } else {
+                                    // Nivel 2 simple (sin hijos)
+                                    echo '<a href="' . esc_url( $child_link ) . '" class="font-headline-sm text-[16px] text-on-surface font-medium hover:text-primary transition-colors inline-block pb-2">';
+                                    echo esc_html( $child_term->name );
+                                    echo '</a>';
+                                }
+                                echo '</div>'; // End column
                             }
-                            echo '</ul>';
-                            echo '<div class="px-6 py-4 border-t border-surface-container mt-2 bg-surface-container-low"><a href="' . esc_url( $link ) . '" class="text-sm font-bold text-primary hover:opacity-80 transition-opacity">Ver todo ' . esc_html( $term->name ) . ' &rarr;</a></div>';
+                            
+                            echo '</div>'; // End grid
+
+                            // Call to action de la categoría principal
+                            echo '<div class="mt-8 pt-6 border-t border-surface-variant flex justify-end">';
+                            echo '<a href="' . esc_url( $link ) . '" class="inline-flex items-center gap-2 font-label-caps text-label-caps uppercase tracking-widest text-primary hover:opacity-80 transition-opacity font-bold">Ver toda la colección ' . esc_html( $term->name ) . ' <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>';
                             echo '</div>';
+
+                            echo '</div>'; // End mega menu panel
                         }
                         echo '</li>';
                     }
