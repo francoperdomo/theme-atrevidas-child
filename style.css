@@ -7,3 +7,64 @@ Author URI: https://francoperdomo.com
 Template: theme-simple-woo
 Version: 1.0.0
 */
+
+/* ==========================================================================
+   GEOMETRÍA ORGÁNICA Y FEMENINA
+   Aplicación sistemática de tokens redondeados para suavizar la marca.
+   ========================================================================== */
+
+/* 1. Catálogo / Grilla de Productos */
+.woocommerce ul.products li.product {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+}
+
+/* Insignias (Badges) redondos */
+.woocommerce span.onsale,
+.product-badge {
+    border-radius: var(--radius-btn) !important;
+}
+
+/* 2. Single Product (Página de Producto) */
+/* Galería de imágenes principal y miniaturas */
+.woocommerce-product-gallery__wrapper,
+.woocommerce-product-gallery__image img,
+.woocommerce-product-gallery__trigger {
+    border-radius: var(--radius-xl) !important;
+}
+
+/* Acordeones y Cajas de Información (incluye resumen checkout) */
+.bg-surface-container-low.shadow-sm,
+.bg-surface-container-lowest.shadow-sm {
+    border-radius: var(--radius-xl);
+}
+
+/* Para elementos internos o cajas secundarias donde un radio tan grande no queda bien */
+.woocommerce-checkout-review-order-table,
+#order_review {
+    border-radius: var(--radius-lg);
+}
+
+/* 3. Botones principales (Píldora) */
+.woocommerce button.button.alt,
+.woocommerce a.button.alt,
+.woocommerce input.button.alt,
+.woocommerce #respond input#submit.alt,
+.single_add_to_cart_button,
+.woocommerce button.button,
+.woocommerce a.button {
+    border-radius: var(--radius-btn) !important;
+}
+
+/* 4. Checkout / Formularios / Inputs */
+.woocommerce form .form-row input.input-text, 
+.woocommerce form .form-row textarea,
+.select2-container .select2-selection--single,
+.woocommerce-input-wrapper input {
+    border-radius: var(--radius-default) !important;
+}
+
+/* Header Dropdowns */
+.group > .absolute.bg-white.shadow-xl {
+    border-radius: var(--radius-lg);
+}
