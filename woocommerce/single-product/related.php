@@ -17,11 +17,11 @@ if ( $related_products ) : ?>
 			<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
 				<div>
 					<span class="font-label-caps text-label-caps uppercase tracking-[0.2em] text-secondary">Sugerencias</span>
-					<h2 class="font-headline-md text-headline-md tracking-tight text-primary font-normal">Otras clientas también se animaron</h2>
+					<h2 class="font-headline-md text-headline-md tracking-tight text-primary font-normal">Más opciones para animarte</h2>
 				</div>
 			</div>
 
-			<div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-gutter gap-y-space-lg md:gap-x-gutter-desktop">
+			<div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-space-md md:gap-gutter-desktop">
 				<?php foreach ( $related_products as $related_product ) : ?>
 					<?php
 					$post_object = get_post( $related_product->get_id() );
