@@ -306,8 +306,8 @@ if ( post_password_required() ) {
         <div class="max-w-7xl mx-auto space-y-space-lg">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
                 <div>
-                    <span class="font-label-caps text-label-caps uppercase tracking-[0.2em] text-secondary">Styling Sugerido</span>
-                    <h2 class="font-headline-md text-headline-md tracking-tight text-on-surface font-normal">Completa tu experiencia</h2>
+                    <span class="font-label-caps text-label-caps uppercase tracking-[0.2em] text-secondary">Animate a más</span>
+                    <h2 class="font-headline-md text-headline-md tracking-tight text-on-surface font-normal">Llevá tu experiencia al siguiente nivel</h2>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-desktop">
