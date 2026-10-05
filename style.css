@@ -86,6 +86,7 @@ Version: 1.0.0
 .atr-nav__list,
 .atr-nav__item {
     align-self: stretch;
+    position: static !important;
 }
 
 .atr-mega {
