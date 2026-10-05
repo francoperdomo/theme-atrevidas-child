@@ -56,7 +56,7 @@
                         $has_children = ! empty( $node['children'] );
                         $link = get_term_link( $term );
                         
-                        echo '<li class="relative group flex items-center h-full">';
+                        echo '<li class="group flex items-center h-full">';
                         // Botón Parent
                         echo '<a href="' . esc_url( $link ) . '" class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors py-6 px-3 whitespace-nowrap flex items-center gap-1">';
                         echo esc_html( $term->name );
@@ -67,8 +67,8 @@
                         
                         // Panel Mega Menu Hover (Hijos & Nietos)
                         if ( $has_children ) {
-                            echo '<div class="absolute top-full left-0 hidden group-hover:block bg-surface shadow-2xl min-w-[600px] max-w-[900px] w-max z-[100] border-t-2 border-primary overflow-hidden p-8" style="border-bottom-left-radius: var(--radius-xl); border-bottom-right-radius: var(--radius-xl);">';
-                            echo '<div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">';
+                            echo '<div class="absolute top-full left-0 w-full hidden group-hover:block bg-surface shadow-2xl z-[100] border-t-2 border-primary overflow-hidden px-margin md:px-margin-desktop py-10" style="border-bottom-left-radius: var(--radius-xl); border-bottom-right-radius: var(--radius-xl);">';
+                            echo '<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-12 gap-y-10 max-w-[1400px] mx-auto">';
                             
                             foreach ( $node['children'] as $child_node ) {
                                 $child_term = $child_node['term'];
@@ -103,7 +103,7 @@
                             echo '</div>'; // End grid
 
                             // Call to action de la categoría principal
-                            echo '<div class="mt-8 pt-6 border-t border-surface-variant flex justify-end">';
+                            echo '<div class="mt-8 pt-6 border-t border-surface-variant flex justify-end max-w-[1400px] mx-auto">';
                             echo '<a href="' . esc_url( $link ) . '" class="inline-flex items-center gap-2 font-label-caps text-label-caps uppercase tracking-widest text-primary hover:opacity-80 transition-opacity font-bold">Ver toda la colección ' . esc_html( $term->name ) . ' <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>';
                             echo '</div>';
 
