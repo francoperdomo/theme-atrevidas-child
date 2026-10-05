@@ -27,7 +27,7 @@ get_header( 'shop' );
                 </div>
                 <div class="flex items-center gap-space-sm self-start lg:self-end bg-surface-container px-space-md py-space-xs rounded-none">
                     <span class="material-symbols-outlined text-[18px] text-on-surface">inventory_2</span>
-                    <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface"><?php echo wc_get_loop_prop('total'); ?> Prendas y Accesorios</span>
+                    <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface"><?php echo wc_get_loop_prop('total'); ?> Productos</span>
                 </div>
             </div>
         </div>
