@@ -87,14 +87,29 @@
                                     echo '<span class="material-symbols-outlined atr-mega__chevron" aria-hidden="true">chevron_right</span>';
                                     echo '</a>';
                                     
-                                    // Lista de sub-subcategorías (Nivel 3)
-                                    echo '<ul class="atr-mega__sublist">';
-                                    foreach ( $child_node['children'] as $grandchild_node ) {
-                                        $grandchild_term = $grandchild_node['term'];
-                                        $grandchild_link = get_term_link( $grandchild_term );
-                                        echo '<li><a href="' . esc_url( $grandchild_link ) . '" class="atr-mega__sublink font-body-md text-secondary hover:text-primary transition-colors">' . esc_html( $grandchild_term->name ) . '</a></li>';
+                                    // Función recursiva para iterar niveles N3 en adelante
+                                    if ( ! function_exists('atrevidas_render_mega_sublist') ) {
+                                        function atrevidas_render_mega_sublist( $children, $level = 0 ) {
+                                            $ul_class = $level === 0 ? 'atr-mega__sublist' : 'pl-3 mt-1 mb-2 space-y-1 border-l border-surface-container/50';
+                                            $text_class = $level === 0 ? 'text-secondary' : 'text-secondary/80 text-[13px]';
+                                            
+                                            echo '<ul class="' . esc_attr( $ul_class ) . '">';
+                                            foreach ( $children as $node ) {
+                                                $term = $node['term'];
+                                                $link = get_term_link( $term );
+                                                echo '<li>';
+                                                echo '<a href="' . esc_url( $link ) . '" class="atr-mega__sublink font-body-md ' . esc_attr($text_class) . ' hover:text-primary transition-colors block py-0.5">' . esc_html( $term->name ) . '</a>';
+                                                if ( ! empty( $node['children'] ) ) {
+                                                    atrevidas_render_mega_sublist( $node['children'], $level + 1 );
+                                                }
+                                                echo '</li>';
+                                            }
+                                            echo '</ul>';
+                                        }
                                     }
-                                    echo '</ul>';
+
+                                    // Lista de sub-subcategorías (Nivel 3 hacia el infinito)
+                                    atrevidas_render_mega_sublist( $child_node['children'] );
                                 } else {
                                     // Nivel 2 simple (sin hijos)
                                     echo '<a href="' . esc_url( $child_link ) . '" class="atr-mega__title font-headline-sm text-on-surface hover:text-primary transition-colors">';
