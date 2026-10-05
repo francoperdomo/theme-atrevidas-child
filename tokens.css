@@ -52,7 +52,10 @@
 /* ==========================================================================
    NEUTRALIZACIÓN DEL CHECKOUT (Sobreescritura de inyecciones del Core)
    ========================================================================== */
-.woocommerce-checkout .text-primary {
+.woocommerce-checkout .text-primary,
+.single-product .text-primary,
+.woocommerce-account .text-primary,
+.woocommerce-cart .text-primary {
     color: var(--color-on-surface) !important;
 }
 .woocommerce-checkout .border-primary {
