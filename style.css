@@ -21,7 +21,8 @@ Version: 1.0.0
 
 /* Insignias (Badges) redondos */
 .woocommerce span.onsale,
-.product-badge {
+.product-badge,
+.woocommerce ul.products li.product .absolute.top-space-xs > span {
     border-radius: var(--radius-btn) !important;
 }
 
