@@ -49,7 +49,7 @@ $img_juguetes = get_theme_mod( 'atrevidas_hero_juguetes' ) ?: 'https://via.place
             <div class="flex flex-col items-center">
                 <span class="block material-symbols-outlined text-4xl text-on-surface mb-3">verified</span>
                 <h3 class="font-bold text-on-surface mb-1">Pagos Seguros</h3>
-                <p class="text-secondary text-sm">Transferencia, tarjetas y efectivo.</p>
+                <p class="text-secondary text-sm">Tarjetas de crédito y débito.</p>
             </div>
             <div class="flex flex-col items-center">
                 <span class="block material-symbols-outlined text-4xl text-on-surface mb-3">forum</span>

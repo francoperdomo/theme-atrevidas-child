@@ -154,14 +154,14 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                             <span class="material-symbols-outlined text-[20px] text-on-surface mt-0.5">two_wheeler</span>
                             <div class="flex flex-col">
                                 <span class="font-body-md text-body-md font-medium text-on-surface">Envíos rápidos en Moto</span>
-                                <span class="text-[12px] text-secondary">Disponibles para CABA y GBA.</span>
+                                <span class="text-[12px] text-secondary">Disponibles únicamente en Concepción del Uruguay.</span>
                             </div>
                         </div>
                         <div class="flex items-start gap-space-sm">
-                            <span class="material-symbols-outlined text-[20px] text-on-surface mt-0.5">payments</span>
+                            <span class="material-symbols-outlined text-[20px] text-on-surface mt-0.5">credit_card</span>
                             <div class="flex flex-col">
-                                <span class="font-body-md text-body-md font-medium text-on-surface">Pagos en Efectivo</span>
-                                <span class="text-[12px] text-secondary">Válido únicamente para Retiro en Local o Moto Envío.</span>
+                                <span class="font-body-md text-body-md font-medium text-on-surface">Pagos Seguros</span>
+                                <span class="text-[12px] text-secondary">Aceptamos tarjetas de crédito y débito.</span>
                             </div>
                         </div>
                     </div>

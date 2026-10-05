@@ -140,7 +140,7 @@ if ( post_password_required() ) {
                             <?php echo $product->get_price_html(); ?>
                         </span>
                     </div>
-                    <?php echo gs_get_best_discount_price_html( $product, 'pdp' ); ?>
+                    <?php // echo gs_get_best_discount_price_html( $product, 'pdp' ); ?>
                 </div>
 
                 <!-- WooCommerce Add To Cart (Handles Variations/Simple dynamically) -->
@@ -160,12 +160,12 @@ if ( post_password_required() ) {
                 $cod_pct_label           = rtrim( rtrim( number_format( $cod_pct, 1 ), '0' ), '.' );
                 ?>
                 <div class="space-y-space-xs pt-space-xs">
-                    <!-- Acordeón 1: Composición y Cuidados -->
+                    <!-- Acordeón 1: Descripción -->
                     <div class="bg-surface-container-low shadow-sm">
                         <button class="w-full p-space-md flex items-center justify-between text-left" onclick="toggleAccordion('acc-1')" type="button">
                             <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface font-semibold flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[18px]">texture</span>
-                                Composición & Cuidados
+                                <span class="material-symbols-outlined text-[18px]">description</span>
+                                Descripción del Producto
                             </span>
                             <span class="material-symbols-outlined text-[20px] text-on-surface transition-transform duration-300" id="acc-1-icon">expand_more</span>
                         </button>
@@ -178,12 +178,50 @@ if ( post_password_required() ) {
                         </div>
                     </div>
 
-                    <!-- Acordeón 2: Medios de Pago & Promociones -->
+                    <!-- Acordeón 4: Tips de Uso y Cuidados -->
+                    <div class="bg-surface-container-low shadow-sm">
+                        <button class="w-full p-space-md flex items-center justify-between text-left" onclick="toggleAccordion('acc-4')" type="button">
+                            <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface font-semibold flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">favorite</span>
+                                Tips de Uso & Cuidados
+                            </span>
+                            <span class="material-symbols-outlined text-[20px] text-on-surface transition-transform duration-300" id="acc-4-icon">expand_more</span>
+                        </button>
+                        <div class="grid transition-[grid-template-rows] duration-300 ease-in-out grid-rows-[0fr]" id="acc-4">
+                            <div class="overflow-hidden">
+                                <div class="px-space-md pb-space-md space-y-3 text-secondary font-body-sm text-body-sm">
+                                    <div class="flex items-start gap-2.5">
+                                        <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">water_drop</span>
+                                        <div>
+                                            <strong class="text-on-surface block font-medium">Cuidado de tus Juguetes</strong>
+                                            <span>Limpialos siempre antes y después de jugar (con agua tibia y jabón neutro, o un Toy Cleaner). Dato clave: Si tu juguete es de silicona, usá siempre lubricantes al agua para no estropear el material.</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-2.5">
+                                        <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">checkroom</span>
+                                        <div>
+                                            <strong class="text-on-surface block font-medium">Cuidado de la Lencería</strong>
+                                            <span>Para que tus prendas se mantengan impecables como el primer día, te recomendamos lavarlas a mano con agua fría y jabón neutro. Evitá el lavarropas y dejalas secar a la sombra.</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-2.5">
+                                        <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">inventory_2</span>
+                                        <div>
+                                            <strong class="text-on-surface block font-medium">Guardado ideal</strong>
+                                            <span>Secá bien tus juguetes antes de guardarlos. Lo ideal es mantenerlos en su bolsita original (sin que se toquen entre sí) y en un lugar fresco. ¡Acordate de sacarles las pilas si no los vas a usar por un tiempo!</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acordeón 2: Medios de Pago -->
                     <div class="bg-surface-container-low shadow-sm">
                         <button class="w-full p-space-md flex items-center justify-between text-left" onclick="toggleAccordion('acc-2')" type="button">
                             <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface font-semibold flex items-center gap-2">
                                 <span class="material-symbols-outlined text-[18px]">payments</span>
-                                Medios de Pago & Promociones
+                                Medios de Pago
                             </span>
                             <span class="material-symbols-outlined text-[20px] text-on-surface transition-transform duration-300" id="acc-2-icon">expand_more</span>
                         </button>
@@ -193,39 +231,28 @@ if ( post_password_required() ) {
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">credit_card</span>
                                         <div>
-                                            <strong class="text-on-surface block font-medium">Cuotas con Mercado Pago</strong>
-                                            <span>Aceptamos todas las tarjetas de crédito y débito a través de la pasarela segura de Mercado Pago.</span>
+                                            <strong class="text-on-surface block font-medium">Tarjetas de Crédito y Débito</strong>
+                                            <span>Aceptamos todas las tarjetas para que elijas la opción que mejor te quede. Podés comprar con total tranquilidad.</span>
                                         </div>
                                     </div>
-                                    <?php if ( $transfer_pct > 0 ) : ?>
                                     <div class="flex items-start gap-2.5">
-                                        <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">account_balance</span>
+                                        <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">lock</span>
                                         <div>
-                                            <strong class="text-on-surface block font-medium"><?php echo esc_html( $transfer_pct_label ); ?>% OFF por Transferencia</strong>
-                                            <span>Descuento automático aplicado directamente al seleccionar transferencia bancaria como medio de pago.</span>
+                                            <strong class="text-on-surface block font-medium">Pago 100% Seguro y Privado</strong>
+                                            <span>Tus datos están protegidos. Procesamos los pagos a través de una pasarela segura y el cargo en tu tarjeta será discreto.</span>
                                         </div>
                                     </div>
-                                    <?php endif; ?>
-                                    <?php if ( $cod_pct > 0 ) : ?>
-                                    <div class="flex items-start gap-2.5">
-                                        <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">payments</span>
-                                        <div>
-                                            <strong class="text-on-surface block font-medium"><?php echo esc_html( $cod_pct_label ); ?>% OFF en Efectivo (Contrareembolso)</strong>
-                                            <span>Válido abonando en efectivo contra entrega únicamente para pedidos con destino en CABA y Gran Buenos Aires.</span>
-                                        </div>
-                                    </div>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Acordeón 3: Envíos & Retiro en Sucursal -->
+                    <!-- Acordeón 3: Envíos & Puntos de Retiro -->
                     <div class="bg-surface-container-low shadow-sm">
                         <button class="w-full p-space-md flex items-center justify-between text-left" onclick="toggleAccordion('acc-3')" type="button">
                             <span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface font-semibold flex items-center gap-2">
                                 <span class="material-symbols-outlined text-[18px]">local_shipping</span>
-                                Envíos & Retiro en Sucursal
+                                Envíos & Puntos de Retiro
                             </span>
                             <span class="material-symbols-outlined text-[20px] text-on-surface transition-transform duration-300" id="acc-3-icon">expand_more</span>
                         </button>
@@ -245,21 +272,21 @@ if ( post_password_required() ) {
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">local_shipping</span>
                                         <div>
                                             <strong class="text-on-surface block font-medium">Envíos a todo el país</strong>
-                                            <span>Despachos diarios a través de Correo Argentino con código de seguimiento en tiempo real.</span>
+                                            <span>Llegamos a cada rincón de Argentina por correo. Preparamos tu paquete con total discreción: sin logos, marcas ni descripciones a la vista para cuidar tu privacidad al 100%.</span>
                                         </div>
                                     </div>
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">two_wheeler</span>
                                         <div>
-                                            <strong class="text-on-surface block font-medium">Moto Express (CABA & GBA)</strong>
-                                            <span>Servicio de mensajería rápida para entregas directas en el día o dentro de las 24-48 hs hábiles.</span>
+                                            <strong class="text-on-surface block font-medium">Moto Mensajería (Concepción del Uruguay)</strong>
+                                            <span>¿Lo querés ya? Te lo llevamos directo a tu puerta con nuestro servicio de mensajería rápida, exclusivo para Concepción del Uruguay. Rápido y confidencial.</span>
                                         </div>
                                     </div>
                                     <div class="flex items-start gap-2.5">
                                         <span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">storefront</span>
                                         <div>
-                                            <strong class="text-on-surface block font-medium">Retiro sin cargo en Haedo</strong>
-                                            <span>Podés retirar tu pedido sin costo en nuestro punto de entrega oficial ubicado en Haedo, Gran Buenos Aires.</span>
+                                            <strong class="text-on-surface block font-medium">Retiro sin cargo (Concepción del Uruguay)</strong>
+                                            <span>Podés pasar a buscar tu pedido sin costo por nuestro punto de retiro en Concepción del Uruguay, Entre Ríos. ¡Te avisamos por WhatsApp en cuanto esté listo!</span>
                                         </div>
                                     </div>
                                 </div>

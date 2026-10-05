@@ -41,7 +41,7 @@
         $gs_thresh_clean    = function_exists('wc_price') ? wp_strip_all_tags( wc_price( $gs_threshold ) ) : '$' . number_format( $gs_threshold, 0, ',', '.' );
         ?>
         <p class="font-label-caps text-[9px] sm:text-[10px] md:text-label-caps uppercase text-center tracking-[0.06em] md:tracking-[0.14em] leading-tight">
-            Envío Bonificado desde <?php echo esc_html( $gs_thresh_clean ); ?> • Retiro en Haedo • Cuotas Mercado Pago • Hasta <?php echo esc_html( $gs_best_disc_label ); ?>% OFF Efectivo / Transferencia
+            Envío Bonificado desde <?php echo esc_html( $gs_thresh_clean ); ?> • Retiro en Concepción del Uruguay • Tarjetas de Crédito y Débito
         </p>
     </div>
     <div class="h-16 md:h-20 lg:h-24 w-full px-margin md:px-margin-desktop flex items-center justify-between relative">

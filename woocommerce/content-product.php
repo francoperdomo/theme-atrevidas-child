@@ -125,7 +125,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
                 <span class="font-headline-sm text-headline-sm font-semibold text-on-surface block w-full">
                     <?php echo $product->get_price_html(); ?>
                 </span>
-                <?php echo gs_get_best_discount_price_html( $product ); ?>
+                <?php // echo gs_get_best_discount_price_html( $product ); ?>
             </div>
             
             <div class="w-full woocommerce-loop-btn-wrapper">
