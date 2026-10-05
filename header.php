@@ -34,15 +34,21 @@
     <div class="w-full bg-black text-white py-1.5 md:py-space-xs px-margin md:px-margin-desktop flex items-center justify-center">
         <?php
         $gs_threshold       = (float) get_option( 'free_shipping_threshold', 100000 );
-        $gs_transfer        = (float) get_option( 'transfer_discount_percentage', 5 );
-        $gs_cod             = (float) get_option( 'cod_discount_percentage', 10 );
-        $gs_best_disc       = max( $gs_transfer, $gs_cod );
-        $gs_best_disc_label = rtrim( rtrim( number_format( $gs_best_disc, 1 ), '0' ), '.' );
         $gs_thresh_clean    = function_exists('wc_price') ? wp_strip_all_tags( wc_price( $gs_threshold ) ) : '$' . number_format( $gs_threshold, 0, ',', '.' );
+        
+        $banner_parts = array();
+        if ( $gs_threshold > 0 ) {
+            $banner_parts[] = 'Envío Bonificado desde ' . esc_html( $gs_thresh_clean );
+        }
+        $banner_parts[] = 'Retiro en Concepción del Uruguay';
+        $banner_parts[] = 'Tarjetas de Crédito y Débito';
+        
+        if ( ! empty( $banner_parts ) ) :
         ?>
         <p class="font-label-caps text-[9px] sm:text-[10px] md:text-label-caps uppercase text-center tracking-[0.06em] md:tracking-[0.14em] leading-tight">
-            Envío Bonificado desde <?php echo esc_html( $gs_thresh_clean ); ?> • Retiro en Concepción del Uruguay • Tarjetas de Crédito y Débito
+            <?php echo implode( ' &bull; ', $banner_parts ); ?>
         </p>
+        <?php endif; ?>
     </div>
     <div class="h-16 md:h-20 lg:h-24 w-full px-margin md:px-margin-desktop flex items-center justify-between relative">
         <div class="flex-1 flex items-center atr-nav-host">
