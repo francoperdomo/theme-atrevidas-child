@@ -90,10 +90,11 @@
                                     // Función recursiva para iterar niveles N3 en adelante
                                     if ( ! function_exists('atrevidas_render_mega_sublist') ) {
                                         function atrevidas_render_mega_sublist( $children, $level = 0 ) {
-                                            $ul_class = $level === 0 ? 'atr-mega__sublist' : 'pl-3 mt-1 mb-2 space-y-1 border-l border-surface-container/50';
-                                            $text_class = $level === 0 ? 'text-secondary' : 'text-secondary/80 text-[13px]';
+                                            $ul_class = $level === 0 ? 'atr-mega__sublist' : 'mt-1 mb-3 space-y-1';
+                                            $ul_style = $level === 0 ? '' : 'margin-left: 0.5rem; padding-left: 1rem; border-left: 2px solid var(--color-surface-container-high, #e5e7eb);';
+                                            $text_class = $level === 0 ? 'text-secondary' : 'text-secondary/90 text-[13px] font-medium';
                                             
-                                            echo '<ul class="' . esc_attr( $ul_class ) . '">';
+                                            echo '<ul class="' . esc_attr( $ul_class ) . '" style="' . esc_attr( $ul_style ) . '">';
                                             foreach ( $children as $node ) {
                                                 $term = $node['term'];
                                                 $link = get_term_link( $term );
