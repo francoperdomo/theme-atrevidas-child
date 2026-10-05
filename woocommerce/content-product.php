@@ -18,7 +18,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
 }
 ?>
-<div <?php wc_product_class( 'group flex flex-col bg-surface-container-lowest shadow-sm overflow-hidden relative', $product ); ?>>
+<div <?php wc_product_class( 'gs-product-card group flex flex-col bg-surface-container-lowest shadow-sm overflow-hidden relative', $product ); ?>>
     <div class="relative w-full aspect-[4/5] bg-white overflow-hidden group/gallery">
         <?php 
         global $woocommerce_loop;

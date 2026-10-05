@@ -14,7 +14,7 @@ Version: 1.0.0
    ========================================================================== */
 
 /* 1. Catálogo / Grilla de Productos */
-.product {
+.gs-product-card {
     border-radius: var(--radius-xl);
     overflow: hidden;
 }
@@ -22,7 +22,7 @@ Version: 1.0.0
 /* Insignias (Badges) redondos */
 .woocommerce span.onsale,
 .product-badge,
-.product .absolute.top-space-xs > span {
+.gs-product-card .absolute.top-space-xs > span {
     border-radius: var(--radius-btn) !important;
 }
 
@@ -53,7 +53,8 @@ Version: 1.0.0
 .woocommerce #respond input#submit.alt,
 .single_add_to_cart_button,
 .woocommerce button.button,
-.woocommerce a.button {
+.woocommerce a.button,
+.gs-stock-whatsapp-inquire {
     border-radius: var(--radius-btn) !important;
 }
 
