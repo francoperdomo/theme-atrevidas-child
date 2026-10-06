@@ -1,4 +1,7 @@
 :root {
+    /* Radios Específicos de Marca */
+    --radius-badge: 9999px;
+
     /* Identidad Atrevidas */
     --color-primary-rgb: 221 26 131; /* #dd1a83 */
     --color-surface-rgb: 255 255 255; /* Blanco puro */
