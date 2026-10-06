@@ -86,3 +86,61 @@ add_action( 'init', function() {
         update_option( 'gs_badges_updated_once', true );
     }
 });
+
+/**
+ * Añadir "Ritual de Cuidados" al final de los acordeones del producto.
+ */
+add_action( 'gs_after_single_product_accordions', 'atrevidas_custom_care_accordion' );
+function atrevidas_custom_care_accordion() {
+    ?>
+    <!-- Acordeón 4: Guía de Cuidados (Atrevidas) -->
+    <div class="bg-surface-container-low shadow-sm">
+        <button class="w-full p-space-md flex items-center justify-between text-left" onclick="toggleAccordion('acc-4')" type="button">
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-primary font-semibold flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">favorite</span>
+                Ritual de Cuidados
+            </span>
+            <span class="material-symbols-outlined text-[20px] text-primary transition-transform duration-300" id="acc-4-icon">expand_more</span>
+        </button>
+        <div class="grid transition-[grid-template-rows] duration-300 ease-in-out grid-rows-[0fr]" id="acc-4">
+            <div class="overflow-hidden">
+                <div class="px-space-md pb-space-md space-y-4 text-secondary font-body-sm text-body-sm">
+                    <p class="font-body-md text-primary font-medium">Prolongá el placer. Seguí estos simples consejos para el cuidado de tus productos:</p>
+                    
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl shrink-0 mt-0.5">water_drop</span>
+                        <div>
+                            <strong class="text-primary font-medium block">Higiene de Juguetes</strong>
+                            <span>Laválos siempre antes y después de cada uso con jabón neutro o un limpiador especializado (Toy Cleaner). Usá agua tibia, nunca muy caliente.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl shrink-0 mt-0.5">battery_charging_full</span>
+                        <div>
+                            <strong class="text-primary font-medium block">Carga y Baterías</strong>
+                            <span>Para no dañar los motores recargables, no los dejes enchufados toda la noche. Una vez que la luz deje de parpadear (1-2 hs aprox), desconectalos.</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl shrink-0 mt-0.5">dry_cleaning</span>
+                        <div>
+                            <strong class="text-primary font-medium block">Lencería Fina</strong>
+                            <span>Lavado a mano con agua fría y jabón suave. Si usás lavarropas, que sea en bolsa protectora y sin centrifugado para proteger encajes y elásticos.</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl shrink-0 mt-0.5">inventory_2</span>
+                        <div>
+                            <strong class="text-primary font-medium block">Almacenamiento</strong>
+                            <span>Guardá los juguetes en sus fundas originales o bolsas de tela (nunca plástico). Evitá que los juguetes de silicona se toquen entre sí.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
