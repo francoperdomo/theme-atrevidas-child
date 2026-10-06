@@ -94,7 +94,7 @@ add_action( 'gs_after_single_product_accordions', 'atrevidas_custom_care_accordi
 function atrevidas_custom_care_accordion() {
     ?>
     <!-- Acordeón 4: Guía de Cuidados (Atrevidas) -->
-    <div class="bg-surface-container-low shadow-sm">
+    <div class="bg-surface-container-low shadow-sm rounded-2xl">
         <button class="w-full p-space-md flex items-center justify-between text-left" onclick="toggleAccordion('acc-4')" type="button">
             <span class="font-label-caps text-label-caps uppercase tracking-widest text-primary font-semibold flex items-center gap-2">
                 <span class="material-symbols-outlined text-[18px]">favorite</span>
