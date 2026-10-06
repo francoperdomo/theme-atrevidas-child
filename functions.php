@@ -144,3 +144,51 @@ function atrevidas_custom_care_accordion() {
     </div>
     <?php
 }
+
+/**
+ * Reemplazar la barra de beneficios genérica por una sección educativa en el Archive de Atrevidas.
+ */
+
+add_action( 'gs_archive_benefits_bar', 'atrevidas_archive_educational_bar' );
+function atrevidas_archive_educational_bar() {
+    ?>
+    <section class="w-full bg-surface-container-low py-space-xl px-margin md:px-margin-desktop mt-space-2xl border-t border-surface-container">
+        <div class="max-w-7xl mx-auto space-y-space-xl">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="font-label-caps text-label-caps uppercase tracking-[0.2em] text-secondary">La Cultura Atrevida</span>
+                <h3 class="font-headline-md text-headline-md text-primary mt-2">Cuidá tu placer y tus prendas</h3>
+                <p class="font-body-md text-body-md text-secondary mt-3">Prolongá la vida útil de tus juguetes y lencería con estos tres simples hábitos.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+                <div class="flex flex-col items-center text-center p-space-lg bg-surface shadow-sm hover:shadow-md transition-shadow group border border-surface-container-lowest rounded-3xl">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-[32px]">water_drop</span>
+                    </div>
+                    <h4 class="font-label-large uppercase tracking-wider text-primary font-bold mb-2">Higiene de Juguetes</h4>
+                    <p class="font-body-sm text-secondary">Lavá tus juguetes antes y después de usar con agua tibia y jabón neutro. Secalos al aire libre sobre una toalla limpia.</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center p-space-lg bg-surface shadow-sm hover:shadow-md transition-shadow group border border-surface-container-lowest rounded-3xl">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-[32px]">battery_charging_full</span>
+                    </div>
+                    <h4 class="font-label-large uppercase tracking-wider text-primary font-bold mb-2">Motores y Baterías</h4>
+                    <p class="font-body-sm text-secondary">Nunca dejes los vibradores cargando toda la noche. Una o dos horas son suficientes para cuidar la vida útil del motor.</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center p-space-lg bg-surface shadow-sm hover:shadow-md transition-shadow group border border-surface-container-lowest rounded-3xl">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-[32px]">dry_cleaning</span>
+                    </div>
+                    <h4 class="font-label-large uppercase tracking-wider text-primary font-bold mb-2">Delicadeza en Lencería</h4>
+                    <p class="font-body-sm text-secondary">Lavá tus prendas a mano con agua fría. Si usás lavarropas, hacelo en bolsa protectora y sin usar centrifugado fuerte.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
+}
+add_action( 'after_setup_theme', function() {
+    remove_action( 'gs_archive_benefits_bar', 'simple_woo_archive_benefits_bar' );
+}, 20 );
