@@ -78,3 +78,11 @@ function atrevidas_get_category_tree( $parent_id = 0 ) {
 if ( ! is_admin() ) {
     add_filter( 'wc_product_sku_enabled', '__return_false' );
 }
+add_action( 'init', function() {
+    if ( ! get_option( 'gs_badges_updated_once' ) ) {
+        update_option( 'gs_show_low_stock_badge', 'no' );
+        update_option( 'gs_new_arrival_days', '30' );
+        update_option( 'gs_new_arrival_text', '✨ Nuevo Ingreso' );
+        update_option( 'gs_badges_updated_once', true );
+    }
+});
