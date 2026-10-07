@@ -13,16 +13,46 @@ Version: 1.0.0
    Aplicación sistemática de tokens redondeados para suavizar la marca.
    ========================================================================== */
 
-/* 1. Catálogo / Grilla de Productos */
-.gs-product-card {
-    border-radius: var(--radius-xl);
-    overflow: hidden;
+/* ==========================================================================
+   COHERENCIA VISUAL (PÍLDORA Y CIRCULAR)
+   ========================================================================== */
+
+/* Botones de filtros, etiquetas de búsqueda, toggle login, etiquetas de carrito, qty y formularios */
+.gs-view-controls,
+.filter-dropdown-toggle,
+.search-tag-btn,
+.gs-toggle-login-btn,
+.fake-coupon-btn,
+.woocommerce-notices-wrapper .woocommerce-message,
+.woocommerce-notices-wrapper .woocommerce-info,
+.woocommerce-notices-wrapper .woocommerce-error,
+form.cart .quantity,
+.woocommerce-mini-cart__buttons a.button,
+.woocommerce-form-login .button,
+.woocommerce-form-register .button,
+form.checkout_coupon .button,
+form.lost_reset_password .button {
+    border-radius: var(--radius-btn) !important;
+}
+
+/* Estado de la orden (Order Status) */
+.order-status {
+    border-radius: var(--radius-badge) !important;
+}
+
+/* Swatches de tamaño circulares (40x40) */
+.gs-swatch-size {
+    border-radius: 9999px !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Insignias (Badges) redondos */
 .woocommerce span.onsale,
-.product-badge,
-.gs-product-card .absolute.top-space-xs > span {
+.product-badge {
     border-radius: var(--radius-btn) !important;
 }
 
@@ -34,9 +64,12 @@ Version: 1.0.0
     border-radius: var(--radius-xl) !important;
 }
 
-/* Acordeones y Cajas de Información (incluye resumen checkout) */
-.bg-surface-container-low.shadow-sm,
-.bg-surface-container-lowest.shadow-sm {
+/* Acordeones y Cajas de Información (excluyendo barra superior checkout) */
+div.bg-surface-container-low.shadow-sm,
+article.bg-surface-container-low.shadow-sm,
+aside#filter-sidebar,
+div.bg-surface-container-lowest.shadow-sm,
+article.bg-surface-container-lowest.shadow-sm {
     border-radius: var(--radius-xl);
 }
 
