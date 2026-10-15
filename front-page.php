@@ -7,33 +7,27 @@
  * @package SimpleWoo
  */
 
-get_header(); ?>
+get_header();
 
-<main id="main-content" class="bg-surface min-h-screen">
+// 1. Hero Banner Panorámico (Se oculta automáticamente si no hay imágenes cargadas)
+get_template_part( 'template-parts/home/hero' );
 
-	<?php
-	// 1. Hero Split Screen (Lencería vs Sexshop & Juguetes)
-	get_template_part( 'template-parts/home/hero' );
+// 2. Category Chips (Acceso Rápido a Categorías Dinámicas)
+get_template_part( 'template-parts/home/category-chips' );
 
-	// 2. Category Chips (Acceso Rápido a Categorías Dinámicas)
-	get_template_part( 'template-parts/home/category-chips' );
+// 3. Portales Duales (Lencería vs Juguetes)
+get_template_part( 'template-parts/home/dual-portals' );
 
-	// 3. Portales Duales (Lencería vs Juguetes)
-	get_template_part( 'template-parts/home/dual-portals' );
+// 4. Trust Pillars (4 Pilares: Empaque Discreto, Pagos Privados, Descuentos, Asesoramiento)
+get_template_part( 'template-parts/home/trust-pillars' );
 
-	// 4. Trust Pillars (4 Pilares: Empaque Discreto, Pagos Privados, Descuentos, Asesoramiento)
-	get_template_part( 'template-parts/home/trust-pillars' );
+// 5. Featured Products (Top Más Deseados con Transient Cache)
+get_template_part( 'template-parts/home/featured-products' );
 
-	// 4. Featured Products (Top Más Deseados con Transient Cache)
-	get_template_part( 'template-parts/home/featured-products' );
+// 6. Spotlight (Cultura Atrevida y Bienestar Íntimo)
+get_template_part( 'template-parts/home/spotlight' );
 
-	// 5. Spotlight (Cultura Atrevida y Bienestar Íntimo)
-	get_template_part( 'template-parts/home/spotlight' );
+// 7. FAQ Accordion (Preguntas Frecuentes y Discreción)
+get_template_part( 'template-parts/home/faq-accordion' );
 
-	// 6. FAQ Accordion (Preguntas Frecuentes y Discreción)
-	get_template_part( 'template-parts/home/faq-accordion' );
-	?>
-
-</main>
-
-<?php get_footer(); ?>
+get_footer();

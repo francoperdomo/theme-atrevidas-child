@@ -48,9 +48,9 @@
 @media (min-width: 768px) {
     .atr-hero__media {
         aspect-ratio: auto;
-        height: 480px;
-        max-height: 480px;
-        min-height: 440px;
+        height: 380px;
+        max-height: 380px;
+        min-height: 340px;
     }
 }
 

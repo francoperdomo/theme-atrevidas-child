@@ -10,7 +10,7 @@ function simple_woo_child_enqueue_styles() {
         'simple-woo-child-tokens',
         get_stylesheet_directory_uri() . '/tokens.css',
         array('simple-woo-style'),
-        wp_get_theme()->get('Version')
+        filemtime( get_stylesheet_directory() . '/tokens.css' )
     );
 
     // Encolar estilo principal del child theme para overrides CSS

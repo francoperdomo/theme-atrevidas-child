@@ -2,6 +2,7 @@
 /**
  * Home: Hero Editorial Panorámico (Atrevidas)
  * Banner horizontal con tipografía editorial y doble CTA.
+ * Se oculta por completo si no hay imágenes cargadas en el Personalizador.
  *
  * @package SimpleWoo
  */
@@ -10,12 +11,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// 1. Imágenes (Mobile & Desktop)
+// 1. Imágenes (Mobile & Desktop) desde el Personalizador
 $hero_custom_desktop = get_theme_mod( 'atrevidas_hero_banner_img' );
 $hero_custom_mobile  = get_theme_mod( 'atrevidas_hero_banner_img_mobile' );
 
-$hero_img_desktop = $hero_custom_desktop ? esc_url( $hero_custom_desktop ) : 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80';
-$hero_img_mobile  = $hero_custom_mobile ? esc_url( $hero_custom_mobile ) : $hero_img_desktop;
+// REGLA ESTRICTA: Sin fallbacks genéricos. Si no hay imagen cargada, el banner no se muestra.
+if ( empty( $hero_custom_desktop ) && empty( $hero_custom_mobile ) ) {
+	return;
+}
+
+$hero_img_desktop = ! empty( $hero_custom_desktop ) ? esc_url( $hero_custom_desktop ) : esc_url( $hero_custom_mobile );
+$hero_img_mobile  = ! empty( $hero_custom_mobile ) ? esc_url( $hero_custom_mobile ) : $hero_img_desktop;
 
 // 2. URLs de Categorías
 $cat_lenceria = get_term_by( 'slug', 'lenceria', 'product_cat' );
@@ -41,7 +47,7 @@ $hero_btn2_url  = get_theme_mod( 'atrevidas_hero_banner_btn2_url', $url_juguetes
 	<!-- Imagen Hero optimizada con soporte dual mobile/desktop y altura horizontal en desktop -->
 	<div class="atr-hero__media relative w-full">
 		<picture class="w-full h-full block">
-			<?php if ( ! empty( $hero_custom_desktop ) ) : ?>
+			<?php if ( ! empty( $hero_custom_desktop ) && ! empty( $hero_custom_mobile ) ) : ?>
 				<source media="(min-width: 768px)" srcset="<?php echo esc_url( $hero_img_desktop ); ?>">
 			<?php endif; ?>
 			<img
@@ -55,39 +61,39 @@ $hero_btn2_url  = get_theme_mod( 'atrevidas_hero_banner_btn2_url', $url_juguetes
 				height="900"
 			/>
 		</picture>
-		<!-- Gradiente sutil para legibilidad del texto -->
-		<div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10 pointer-events-none"></div>
+		<!-- Gradiente reforzado para legibilidad impecable del texto -->
+		<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none"></div>
 	</div>
 
-	<!-- Contenido tipográfico superpuesto -->
-	<div class="atr-hero__content absolute bottom-0 left-0 right-0 px-4 sm:px-6 lg:px-8 pb-8 md:pb-12">
+	<!-- Contenido tipográfico superpuesto con amplio padding inferior y lateral -->
+	<div class="atr-hero__content absolute bottom-0 left-0 right-0 px-6 sm:px-10 md:px-16 lg:px-20 pb-10 md:pb-14 lg:pb-16">
 		<div class="max-w-7xl mx-auto">
 
 			<?php if ( ! empty( $hero_subtitle ) ) : ?>
-			<span class="block font-label-caps text-label-caps text-white/80 uppercase tracking-widest mb-2 drop-shadow-sm">
+			<span class="block font-label-caps text-label-caps text-white/90 uppercase tracking-widest mb-2 md:mb-3 drop-shadow-sm">
 				<?php echo esc_html( $hero_subtitle ); ?>
 			</span>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $hero_title ) ) : ?>
-			<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white leading-tight mb-3 drop-shadow-md">
+			<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white leading-tight mb-3 md:mb-4 drop-shadow-md">
 				<?php echo wp_kses_post( $hero_title ); ?>
 			</h1>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $hero_desc ) ) : ?>
-			<p class="font-body-md text-body-md text-white/90 mb-6 max-w-lg drop-shadow-sm">
+			<p class="font-body-md text-body-md text-white/90 mb-6 md:mb-8 max-w-xl drop-shadow-sm">
 				<?php echo wp_kses_post( $hero_desc ); ?>
 			</p>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $hero_btn1_text ) || ! empty( $hero_btn2_text ) ) : ?>
-			<div class="flex flex-wrap items-center gap-3">
+			<div class="flex flex-wrap items-center gap-4">
 				<?php if ( ! empty( $hero_btn1_text ) ) : ?>
 				<a
 					href="<?php echo esc_url( $hero_btn1_url ); ?>"
-					class="inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-body-md font-bold text-body-md rounded-full shadow-lg hover:opacity-90 transition-opacity"
-					style="min-height: 44px;"
+					class="inline-flex items-center justify-center px-8 py-3.5 bg-primary text-white font-body-md font-bold text-body-md rounded-full shadow-lg hover:opacity-90 transition-opacity"
+					style="min-height: 46px;"
 				>
 					<?php echo esc_html( $hero_btn1_text ); ?>
 				</a>
@@ -96,8 +102,8 @@ $hero_btn2_url  = get_theme_mod( 'atrevidas_hero_banner_btn2_url', $url_juguetes
 				<?php if ( ! empty( $hero_btn2_text ) ) : ?>
 				<a
 					href="<?php echo esc_url( $hero_btn2_url ); ?>"
-					class="inline-flex items-center justify-center px-6 py-3 border border-white text-white font-body-md font-bold text-body-md rounded-full shadow-lg hover:bg-white hover:text-black transition-colors"
-					style="min-height: 44px;"
+					class="inline-flex items-center justify-center px-8 py-3.5 border border-white text-white font-body-md font-bold text-body-md rounded-full shadow-lg hover:bg-white hover:text-black transition-colors"
+					style="min-height: 46px;"
 				>
 					<?php echo esc_html( $hero_btn2_text ); ?>
 				</a>
