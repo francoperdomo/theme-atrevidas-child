@@ -27,8 +27,48 @@ function simple_woo_child_enqueue_styles() {
  */
 add_action( 'customize_register', 'atrevidas_customize_register' );
 function atrevidas_customize_register( $wp_customize ) {
+    // --- SECCIÓN HERO PRINCIPAL (BANNER PANORÁMICO) ---
+    $wp_customize->add_section( 'atrevidas_banner_section', array(
+        'title'    => __( 'Portada: Hero Principal (Banner)', 'theme-simple-woo' ),
+        'priority' => 29,
+    ) );
+
+    $wp_customize->add_setting( 'atrevidas_hero_banner_img', array( 'default' => '', 'transport' => 'refresh' ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_banner_img', array(
+        'label'   => __( 'Imagen Desktop (Panorámica)', 'theme-simple-woo' ),
+        'section' => 'atrevidas_banner_section',
+    ) ) );
+
+    $wp_customize->add_setting( 'atrevidas_hero_banner_img_mobile', array( 'default' => '', 'transport' => 'refresh' ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_banner_img_mobile', array(
+        'label'   => __( 'Imagen Móvil (Vertical)', 'theme-simple-woo' ),
+        'section' => 'atrevidas_banner_section',
+    ) ) );
+
+    $wp_customize->add_setting( 'atrevidas_hero_banner_subtitle', array( 'default' => 'Nueva Colección · Lencería & Bienestar', 'transport' => 'refresh' ) );
+    $wp_customize->add_control( 'atrevidas_hero_banner_subtitle', array(
+        'label'   => __( 'Subtítulo Superior', 'theme-simple-woo' ),
+        'section' => 'atrevidas_banner_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'atrevidas_hero_banner_title', array( 'default' => 'Viví tu sensualidad<br>con total libertad.', 'transport' => 'refresh' ) );
+    $wp_customize->add_control( 'atrevidas_hero_banner_title', array(
+        'label'   => __( 'Título Principal (acepta <br>)', 'theme-simple-woo' ),
+        'section' => 'atrevidas_banner_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'atrevidas_hero_banner_desc', array( 'default' => 'Diseños exclusivos y accesorios de calidad superior pensados para tu máximo placer y confort.', 'transport' => 'refresh' ) );
+    $wp_customize->add_control( 'atrevidas_hero_banner_desc', array(
+        'label'   => __( 'Descripción', 'theme-simple-woo' ),
+        'section' => 'atrevidas_banner_section',
+        'type'    => 'textarea',
+    ) );
+
+    // --- SECCIÓN PORTALES DUALES ---
     $wp_customize->add_section( 'atrevidas_hero_section', array(
-        'title'    => __( 'Portada: Imágenes del Hero', 'theme-simple-woo' ),
+        'title'    => __( 'Portada: Portales Duales (Lencería vs Juguetes)', 'theme-simple-woo' ),
         'priority' => 30,
     ) );
 

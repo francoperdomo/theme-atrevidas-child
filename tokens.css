@@ -40,15 +40,29 @@
     clear: none !important;
 }
 
-/* Fix para altura del Hero (evita depender de compilación de Tailwind en el child theme) */
+/* Hero Banner Geometry (Atrevidas) */
+.atr-hero__media {
+    aspect-ratio: 3/4;
+    max-height: 92svh;
+}
+@media (min-width: 768px) {
+    .atr-hero__media {
+        aspect-ratio: auto;
+        height: 480px;
+        max-height: 480px;
+        min-height: 440px;
+    }
+}
+
+/* Portales Duales (Lencería vs Juguetes) */
 .gs-hero-split {
-    height: 85vh;
-    min-height: 600px;
+    min-height: 400px;
 }
 @media (min-width: 768px) {
     .gs-hero-split {
-        height: 65vh;
-        min-height: 500px;
+        height: 480px;
+        min-height: 440px;
+        max-height: 480px;
     }
 }
 

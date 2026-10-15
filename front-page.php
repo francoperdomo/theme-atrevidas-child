@@ -18,7 +18,10 @@ get_header(); ?>
 	// 2. Category Chips (Acceso Rápido a Categorías Dinámicas)
 	get_template_part( 'template-parts/home/category-chips' );
 
-	// 3. Trust Pillars (4 Pilares: Empaque Discreto, Pagos Privados, Descuentos, Asesoramiento)
+	// 3. Portales Duales (Lencería vs Juguetes)
+	get_template_part( 'template-parts/home/dual-portals' );
+
+	// 4. Trust Pillars (4 Pilares: Empaque Discreto, Pagos Privados, Descuentos, Asesoramiento)
 	get_template_part( 'template-parts/home/trust-pillars' );
 
 	// 4. Featured Products (Top Más Deseados con Transient Cache)
