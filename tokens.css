@@ -67,6 +67,25 @@
 }
 
 /* ==========================================================================
+   TARJETAS DE PRODUCTO (WooCommerce Loop)
+   ========================================================================== */
+
+/* 1. Ocultar botones de compra exclusivamente en la portada (Home) */
+.home .gs-featured-products .woocommerce-loop-btn-wrapper,
+.home .woocommerce-loop-btn-wrapper {
+    display: none !important;
+}
+
+/* 2. Fuera de la portada, forzar que los botones de loop respeten el radio redondeado */
+.woocommerce-loop-btn-wrapper .button {
+    border-radius: var(--radius-btn, 9999px) !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+/* ==========================================================================
    NEUTRALIZACIÓN DEL CHECKOUT (Sobreescritura de inyecciones del Core)
    ========================================================================== */
 .woocommerce-checkout .text-primary,
