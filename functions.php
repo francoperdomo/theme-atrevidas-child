@@ -41,6 +41,70 @@ function atrevidas_customize_register( $wp_customize ) {
     $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_juguetes', array(
         'label' => __( 'Imagen Mitad Juguetes', 'theme-simple-woo' ), 'section' => 'atrevidas_hero_section', 'settings' => 'atrevidas_hero_juguetes'
     ) ) );
+
+    // --- SECCIÓN WHATSAPP & CONTACTO ---
+    $wp_customize->add_section( 'atrevidas_whatsapp_section', array(
+        'title'    => __( 'Atrevidas: WhatsApp y Atención', 'theme-simple-woo' ),
+        'priority' => 31,
+    ) );
+
+    $wp_customize->add_setting( 'atrevidas_whatsapp_number', array( 'default' => '', 'transport' => 'refresh' ) );
+    $wp_customize->add_control( 'atrevidas_whatsapp_number', array(
+        'label'       => __( 'Número de WhatsApp Oficial', 'theme-simple-woo' ),
+        'description' => __( 'Ej: 5491123456789 o 11 2345-6789. Se aplicará automáticamente al botón flotante y asesoramiento.', 'theme-simple-woo' ),
+        'section'     => 'atrevidas_whatsapp_section',
+        'type'        => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'atrevidas_whatsapp_msg', array(
+        'default'   => 'Hola Atrevidas! Quiero hacer una consulta con total discreción.',
+        'transport' => 'refresh',
+    ) );
+    $wp_customize->add_control( 'atrevidas_whatsapp_msg', array(
+        'label'       => __( 'Mensaje predeterminado de WhatsApp', 'theme-simple-woo' ),
+        'description' => __( 'Texto con el que iniciará la conversación el cliente.', 'theme-simple-woo' ),
+        'section'     => 'atrevidas_whatsapp_section',
+        'type'        => 'textarea',
+    ) );
+
+    // --- SECCIÓN SPOTLIGHT (CULTURA ATREVIDA) ---
+    $wp_customize->add_section( 'atrevidas_spotlight_section', array(
+        'title'    => __( 'Portada: Banner Spotlight', 'theme-simple-woo' ),
+        'priority' => 32,
+    ) );
+
+    $wp_customize->add_setting( 'atrevidas_spotlight_img', array( 'default' => '', 'transport' => 'refresh' ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_spotlight_img', array(
+        'label'   => __( 'Imagen de Campaña', 'theme-simple-woo' ),
+        'section' => 'atrevidas_spotlight_section',
+    ) ) );
+
+    $wp_customize->add_setting( 'atrevidas_spotlight_tag', array( 'default' => '✨ Cultura Atrevida', 'transport' => 'refresh' ) );
+    $wp_customize->add_control( 'atrevidas_spotlight_tag', array(
+        'label'   => __( 'Tag Superior', 'theme-simple-woo' ),
+        'section' => 'atrevidas_spotlight_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'atrevidas_spotlight_title', array(
+        'default'   => 'Explorá tu sensualidad sin tabúes y a tu propio ritmo.',
+        'transport' => 'refresh',
+    ) );
+    $wp_customize->add_control( 'atrevidas_spotlight_title', array(
+        'label'   => __( 'Título Principal', 'theme-simple-woo' ),
+        'section' => 'atrevidas_spotlight_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'atrevidas_spotlight_desc', array(
+        'default'   => 'Seleccionamos cada prenda y cada accesorio pensando en tu bienestar, seguridad y máximo placer. Calidad superior con asesoramiento personalizado y confidencial.',
+        'transport' => 'refresh',
+    ) );
+    $wp_customize->add_control( 'atrevidas_spotlight_desc', array(
+        'label'   => __( 'Descripción', 'theme-simple-woo' ),
+        'section' => 'atrevidas_spotlight_section',
+        'type'    => 'textarea',
+    ) );
 }
 
 /**
@@ -192,3 +256,48 @@ function atrevidas_archive_educational_bar() {
 add_action( 'after_setup_theme', function() {
     remove_action( 'gs_archive_benefits_bar', 'simple_woo_archive_benefits_bar' );
 }, 20 );
+
+/**
+ * Obtener la URL de WhatsApp de Atrevidas con número y mensaje de discreción normalizados.
+ */
+function atrevidas_get_whatsapp_url() {
+    $custom_number = get_theme_mod( 'atrevidas_whatsapp_number' );
+    $number = ! empty( $custom_number ) ? preg_replace( '/\D/', '', $custom_number ) : '';
+
+    if ( empty( $number ) && function_exists( 'gs_get_store_whatsapp_number' ) ) {
+        $number = gs_get_store_whatsapp_number();
+    }
+
+    if ( empty( $number ) ) {
+        $number = '5491169542528';
+    }
+
+    // Normalización para Argentina
+    if ( strlen( $number ) === 10 ) {
+        $number = '549' . $number;
+    } elseif ( strlen( $number ) === 11 && strpos( $number, '0' ) === 0 ) {
+        $number = '549' . substr( $number, 1 );
+    } elseif ( strlen( $number ) === 12 && strpos( $number, '54' ) === 0 && strpos( $number, '549' ) !== 0 ) {
+        $number = '549' . substr( $number, 2 );
+    }
+
+    $raw_msg = get_theme_mod( 'atrevidas_whatsapp_msg', 'Hola Atrevidas! Quiero hacer una consulta con total discreción.' );
+    $encoded_msg = rawurlencode( $raw_msg );
+
+    return 'https://wa.me/' . $number . ( $encoded_msg ? '?text=' . $encoded_msg : '' );
+}
+
+/**
+ * Filtro para sobreescribir la URL de WhatsApp en el botón flotante del footer del Core
+ */
+add_filter( 'gs_store_whatsapp_url', function( $url, $raw_number ) {
+    return atrevidas_get_whatsapp_url();
+}, 10, 2 );
+
+/**
+ * Filtro pre_option para que cualquier consulta de la opción use el número de Atrevidas si está seteado
+ */
+add_filter( 'pre_option_grow_socks_whatsapp_number', function( $pre ) {
+    $custom = get_theme_mod( 'atrevidas_whatsapp_number' );
+    return ! empty( $custom ) ? $custom : $pre;
+} );
