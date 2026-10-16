@@ -5,6 +5,12 @@
     /* Identidad Atrevidas */
     --color-primary-rgb: 221 26 131; /* #dd1a83 */
     --color-surface-rgb: 255 255 255; /* Blanco puro */
+
+    /* Tokens de Header (Barra superior negra e íconos oscuros con hover fucsia) */
+    --color-header-bar-bg-rgb: 0 0 0;
+    --color-header-bar-text-rgb: 255 255 255;
+    --color-header-icon-rgb: var(--color-on-surface-rgb);
+    --color-header-icon-hover-rgb: var(--color-primary-rgb);
     
     /* Geometría orgánica y femenina */
     --radius-default: 0.75rem; /* 12px para tarjetas */
@@ -41,11 +47,13 @@
 }
 
 /* Hero Banner Geometry (Atrevidas) */
+.sw-hero__media,
 .atr-hero__media {
     aspect-ratio: 3/4;
     max-height: 92svh;
 }
 @media (min-width: 768px) {
+    .sw-hero__media,
     .atr-hero__media {
         aspect-ratio: auto;
         height: 380px;
@@ -55,10 +63,12 @@
 }
 
 /* Portales Duales (Lencería vs Juguetes) */
+.sw-hero-split,
 .gs-hero-split {
     min-height: 400px;
 }
 @media (min-width: 768px) {
+    .sw-hero-split,
     .gs-hero-split {
         height: 480px;
         min-height: 440px;
@@ -71,6 +81,7 @@
    ========================================================================== */
 
 /* 1. Ocultar botones de compra exclusivamente en la portada (Home) */
+.home .sw-featured-products .woocommerce-loop-btn-wrapper,
 .home .gs-featured-products .woocommerce-loop-btn-wrapper,
 .home .woocommerce-loop-btn-wrapper {
     display: none !important;

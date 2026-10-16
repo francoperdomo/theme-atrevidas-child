@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // 1. Imágenes (Mobile & Desktop) desde el Personalizador
-$hero_custom_desktop = get_theme_mod( 'atrevidas_hero_banner_img' );
-$hero_custom_mobile  = get_theme_mod( 'atrevidas_hero_banner_img_mobile' );
+$hero_custom_desktop = sw_child_get_mod( 'sw_hero_image_desktop', '', array( 'atrevidas_hero_banner_img' ) );
+$hero_custom_mobile  = sw_child_get_mod( 'sw_hero_image', '', array( 'atrevidas_hero_banner_img_mobile' ) );
 
 // REGLA ESTRICTA: Sin fallbacks genéricos. Si no hay imagen cargada, el banner no se muestra.
 if ( empty( $hero_custom_desktop ) && empty( $hero_custom_mobile ) ) {
@@ -31,21 +31,21 @@ $cat_juguetes = get_term_by( 'slug', 'juguetes', 'product_cat' );
 $url_juguetes = ( $cat_juguetes && ! is_wp_error( $cat_juguetes ) ) ? get_term_link( $cat_juguetes ) : home_url( '/categoria-producto/juguetes/' );
 
 // 3. Textos y CTAs configurables
-$hero_subtitle = get_theme_mod( 'atrevidas_hero_banner_subtitle', 'Nueva Colección · Lencería & Bienestar' );
-$hero_title    = get_theme_mod( 'atrevidas_hero_banner_title', 'Viví tu sensualidad<br>con total libertad.' );
-$hero_desc     = get_theme_mod( 'atrevidas_hero_banner_desc', 'Diseños exclusivos y accesorios de calidad superior pensados para tu máximo placer y confort.' );
+$hero_subtitle = sw_child_get_mod( 'sw_hero_subtitle', 'Nueva Colección · Lencería & Bienestar', array( 'atrevidas_hero_banner_subtitle' ) );
+$hero_title    = sw_child_get_mod( 'sw_hero_title', 'Viví tu sensualidad<br>con total libertad.', array( 'atrevidas_hero_banner_title' ) );
+$hero_desc     = sw_child_get_mod( 'sw_hero_desc', 'Diseños exclusivos y accesorios de calidad superior pensados para tu máximo placer y confort.', array( 'atrevidas_hero_banner_desc' ) );
 
-$hero_btn1_text = get_theme_mod( 'atrevidas_hero_banner_btn1_text', 'Ver Lencería' );
-$hero_btn1_url  = get_theme_mod( 'atrevidas_hero_banner_btn1_url', $url_lenceria );
+$hero_btn1_text = sw_child_get_mod( 'sw_hero_btn1_text', 'Ver Lencería', array( 'atrevidas_hero_banner_btn1_text' ) );
+$hero_btn1_url  = sw_child_get_mod( 'sw_hero_btn1_url', $url_lenceria, array( 'atrevidas_hero_banner_btn1_url' ) );
 
-$hero_btn2_text = get_theme_mod( 'atrevidas_hero_banner_btn2_text', 'Explorar Sexshop ✨' );
-$hero_btn2_url  = get_theme_mod( 'atrevidas_hero_banner_btn2_url', $url_juguetes );
+$hero_btn2_text = sw_child_get_mod( 'sw_hero_btn2_text', 'Explorar Sexshop ✨', array( 'atrevidas_hero_banner_btn2_text' ) );
+$hero_btn2_url  = sw_child_get_mod( 'sw_hero_btn2_url', $url_juguetes, array( 'atrevidas_hero_banner_btn2_url' ) );
 ?>
 
-<section class="atr-hero relative w-full overflow-hidden" aria-label="Bienvenida a Atrevidas">
+<section class="sw-hero atr-hero relative w-full overflow-hidden" aria-label="Bienvenida a Atrevidas">
 
 	<!-- Imagen Hero optimizada con soporte dual mobile/desktop y altura horizontal en desktop -->
-	<div class="atr-hero__media relative w-full">
+	<div class="sw-hero__media atr-hero__media relative w-full">
 		<picture class="w-full h-full block">
 			<?php if ( ! empty( $hero_custom_desktop ) && ! empty( $hero_custom_mobile ) ) : ?>
 				<source media="(min-width: 768px)" srcset="<?php echo esc_url( $hero_img_desktop ); ?>">
@@ -66,7 +66,7 @@ $hero_btn2_url  = get_theme_mod( 'atrevidas_hero_banner_btn2_url', $url_juguetes
 	</div>
 
 	<!-- Contenido tipográfico superpuesto con amplio padding inferior y lateral -->
-	<div class="atr-hero__content absolute bottom-0 left-0 right-0 px-6 sm:px-10 md:px-16 lg:px-20 pb-10 md:pb-14 lg:pb-16">
+	<div class="sw-hero__content atr-hero__content absolute bottom-0 left-0 right-0 px-6 sm:px-10 md:px-16 lg:px-20 pb-10 md:pb-14 lg:pb-16">
 		<div class="max-w-7xl mx-auto">
 
 			<?php if ( ! empty( $hero_subtitle ) ) : ?>

@@ -15,35 +15,45 @@ $cod_pct      = function_exists( 'gs_get_cod_discount' ) ? gs_get_cod_discount()
 $best_pct     = max( (int) $transfer_pct, (int) $cod_pct );
 $wa_url       = function_exists( 'atrevidas_get_whatsapp_url' ) ? atrevidas_get_whatsapp_url() : 'https://wa.me/';
 
+$pilar3_default_title = ( $best_pct > 0 ? "Hasta {$best_pct}% OFF" : 'Descuentos Especiales' );
+$pilar3_raw_title     = sw_child_get_mod( 'sw_trust_pilar3_title', $pilar3_default_title );
+$pilar3_title         = str_replace( array( '[best_pct]', '[cod_pct]', '[transfer_pct]' ), array( $best_pct, (int) $cod_pct, (int) $transfer_pct ), $pilar3_raw_title );
+
+$pilar4_link_text = sw_child_get_mod( 'sw_trust_pilar4_link_text', 'Chatear ahora' );
+
 $pillars = array(
 	array(
-		'icon'  => 'inventory_2',
-		'title' => 'Empaque 100% Discreto',
-		'desc'  => 'Cajas y sobres lisos sin logos ni menciones al rubro. Absoluta reserva.',
-		'link'  => '',
+		'icon'      => sw_child_get_mod( 'sw_trust_pilar1_icon', 'inventory_2' ),
+		'title'     => sw_child_get_mod( 'sw_trust_pilar1_title', 'Empaque 100% Discreto' ),
+		'desc'      => sw_child_get_mod( 'sw_trust_pilar1_desc', 'Cajas y sobres lisos sin logos ni menciones al rubro. Absoluta reserva.' ),
+		'link'      => '',
+		'link_text' => '',
 	),
 	array(
-		'icon'  => 'verified_user',
-		'title' => 'Privacidad en tu Resumen',
-		'desc'  => 'Pagá con tarjetas o transferencias. Razón social neutra en tu estado de cuenta.',
-		'link'  => '',
+		'icon'      => sw_child_get_mod( 'sw_trust_pilar2_icon', 'verified_user' ),
+		'title'     => sw_child_get_mod( 'sw_trust_pilar2_title', 'Privacidad en tu Resumen' ),
+		'desc'      => sw_child_get_mod( 'sw_trust_pilar2_desc', 'Pagá con tarjetas o transferencias. Razón social neutra en tu estado de cuenta.' ),
+		'link'      => '',
+		'link_text' => '',
 	),
 	array(
-		'icon'  => 'percent',
-		'title' => ( $best_pct > 0 ? "Hasta {$best_pct}% OFF" : 'Descuentos Especiales' ),
-		'desc'  => 'Ahorrá abonando mediante transferencia bancaria o en efectivo.',
-		'link'  => '',
+		'icon'      => sw_child_get_mod( 'sw_trust_pilar3_icon', 'percent' ),
+		'title'     => $pilar3_title,
+		'desc'      => sw_child_get_mod( 'sw_trust_pilar3_desc', 'Ahorrá abonando mediante transferencia bancaria o en efectivo.' ),
+		'link'      => '',
+		'link_text' => '',
 	),
 	array(
-		'icon'  => 'chat',
-		'title' => 'Asesoramiento Íntimo',
-		'desc'  => 'Atención y dudas frecuentes vía WhatsApp con total confidencialidad.',
-		'link'  => $wa_url,
+		'icon'      => sw_child_get_mod( 'sw_trust_pilar4_icon', 'chat' ),
+		'title'     => sw_child_get_mod( 'sw_trust_pilar4_title', 'Asesoramiento Íntimo' ),
+		'desc'      => sw_child_get_mod( 'sw_trust_pilar4_desc', 'Atención y dudas frecuentes vía WhatsApp con total confidencialidad.' ),
+		'link'      => $wa_url,
+		'link_text' => $pilar4_link_text,
 	),
 );
 ?>
 
-<section class="gs-trust-pillars w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12 bg-surface border-y border-surface-container" aria-label="Garantías y confianza">
+<section class="sw-trust-pillars gs-trust-pillars w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12 bg-surface border-y border-surface-container" aria-label="Garantías y confianza">
 	<div class="max-w-7xl mx-auto">
 		<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 			<?php foreach ( $pillars as $pillar ) : ?>
@@ -59,9 +69,9 @@ $pillars = array(
 					<p class="font-body-sm text-xs md:text-sm text-secondary leading-relaxed m-0">
 						<?php echo esc_html( $pillar['desc'] ); ?>
 					</p>
-					<?php if ( $has_link ) : ?>
+					<?php if ( $has_link && ! empty( $pillar['link_text'] ) ) : ?>
 						<span class="inline-flex items-center gap-1 font-body-sm text-xs font-bold text-primary mt-2">
-							Chatear ahora <span aria-hidden="true">→</span>
+							<?php echo esc_html( $pillar['link_text'] ); ?> <span aria-hidden="true">→</span>
 						</span>
 					<?php endif; ?>
 				</<?php echo $has_link ? 'a' : 'div'; ?>>

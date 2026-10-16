@@ -28,7 +28,7 @@ if ( empty( $featured_products ) ) {
 $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/tienda/' );
 ?>
 
-<section class="gs-featured-products w-full px-4 sm:px-6 lg:px-8 py-12 md:py-16 bg-surface" aria-label="Productos más deseados">
+<section class="sw-featured-products gs-featured-products w-full px-4 sm:px-6 lg:px-8 py-12 md:py-16 bg-surface" aria-label="Productos más deseados">
 	<div class="max-w-7xl mx-auto">
 
 		<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-3">

@@ -23,157 +23,283 @@ function simple_woo_child_enqueue_styles() {
 }
 
 /**
- * Añadir opciones al Personalizador para gestionar imágenes dinámicas.
+ * Helper universal para leer theme_mods estandarizados (sw_*) con fallback a claves legacy (atrevidas_*).
  */
-add_action( 'customize_register', 'atrevidas_customize_register' );
-function atrevidas_customize_register( $wp_customize ) {
-    // --- SECCIÓN HERO PRINCIPAL (BANNER PANORÁMICO) ---
-    $wp_customize->add_section( 'atrevidas_banner_section', array(
-        'title'    => __( 'Portada: Hero Principal (Banner)', 'theme-simple-woo' ),
-        'priority' => 29,
-    ) );
+if ( ! function_exists( 'sw_child_get_mod' ) ) {
+    function sw_child_get_mod( string $sw_key, $default = '', array $legacy_keys = array() ) {
+        $val = get_theme_mod( $sw_key, null );
+        if ( null !== $val && '' !== $val ) {
+            return $val;
+        }
+        foreach ( $legacy_keys as $old_key ) {
+            $old_val = get_theme_mod( $old_key, null );
+            if ( null !== $old_val && '' !== $old_val ) {
+                return $old_val;
+            }
+        }
+        return $default;
+    }
+}
 
-    $wp_customize->add_setting( 'atrevidas_hero_banner_img', array( 'default' => '', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_banner_img', array(
-        'label'   => __( 'Imagen Desktop (Panorámica)', 'theme-simple-woo' ),
-        'section' => 'atrevidas_banner_section',
-    ) ) );
+/**
+ * Mapa de migración de claves legacy (atrevidas_*) a claves universales (sw_*).
+ */
+function atrevidas_get_legacy_mods_map(): array {
+    return array(
+        'sw_hero_image_desktop' => 'atrevidas_hero_banner_img',
+        'sw_hero_image'         => 'atrevidas_hero_banner_img_mobile',
+        'sw_hero_subtitle'      => 'atrevidas_hero_banner_subtitle',
+        'sw_hero_title'         => 'atrevidas_hero_banner_title',
+        'sw_hero_desc'          => 'atrevidas_hero_banner_desc',
+        'sw_hero_btn1_text'     => 'atrevidas_hero_banner_btn1_text',
+        'sw_hero_btn1_url'      => 'atrevidas_hero_banner_btn1_url',
+        'sw_hero_btn2_text'     => 'atrevidas_hero_banner_btn2_text',
+        'sw_hero_btn2_url'      => 'atrevidas_hero_banner_btn2_url',
+        'sw_portal1_img'        => 'atrevidas_hero_lenceria',
+        'sw_portal2_img'        => 'atrevidas_hero_juguetes',
+        'sw_whatsapp_number'    => 'atrevidas_whatsapp_number',
+        'sw_whatsapp_msg'       => 'atrevidas_whatsapp_msg',
+        'sw_spotlight_img'      => 'atrevidas_spotlight_img',
+        'sw_spotlight_tag'      => 'atrevidas_spotlight_tag',
+        'sw_spotlight_title'    => 'atrevidas_spotlight_title',
+        'sw_spotlight_desc'     => 'atrevidas_spotlight_desc',
+    );
+}
 
-    $wp_customize->add_setting( 'atrevidas_hero_banner_img_mobile', array( 'default' => '', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_banner_img_mobile', array(
-        'label'   => __( 'Imagen Móvil (Vertical)', 'theme-simple-woo' ),
-        'section' => 'atrevidas_banner_section',
-    ) ) );
+/**
+ * Migración automática única en base de datos de atrevidas_* a sw_* para preservar datos de producción.
+ */
+add_action( 'init', 'atrevidas_migrate_legacy_mods_to_sw', 5 );
+function atrevidas_migrate_legacy_mods_to_sw() {
+    if ( get_option( 'sw_atrevidas_mods_migrated_v1' ) === 'yes' ) {
+        return;
+    }
+    foreach ( atrevidas_get_legacy_mods_map() as $sw_key => $old_key ) {
+        $current = get_theme_mod( $sw_key, null );
+        if ( null === $current || '' === $current ) {
+            $old_val = get_theme_mod( $old_key, null );
+            if ( null !== $old_val && '' !== $old_val ) {
+                set_theme_mod( $sw_key, $old_val );
+            }
+        }
+    }
+    update_option( 'sw_atrevidas_mods_migrated_v1', 'yes' );
+}
 
-    $wp_customize->add_setting( 'atrevidas_hero_banner_subtitle', array( 'default' => 'Nueva Colección · Lencería & Bienestar', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( 'atrevidas_hero_banner_subtitle', array(
-        'label'   => __( 'Subtítulo Superior', 'theme-simple-woo' ),
-        'section' => 'atrevidas_banner_section',
-        'type'    => 'text',
-    ) );
-
-    $wp_customize->add_setting( 'atrevidas_hero_banner_title', array( 'default' => 'Viví tu sensualidad<br>con total libertad.', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( 'atrevidas_hero_banner_title', array(
-        'label'   => __( 'Título Principal (acepta <br>)', 'theme-simple-woo' ),
-        'section' => 'atrevidas_banner_section',
-        'type'    => 'textarea',
-    ) );
-
-    $wp_customize->add_setting( 'atrevidas_hero_banner_desc', array( 'default' => 'Diseños exclusivos y accesorios de calidad superior pensados para tu máximo placer y confort.', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( 'atrevidas_hero_banner_desc', array(
-        'label'   => __( 'Descripción', 'theme-simple-woo' ),
-        'section' => 'atrevidas_banner_section',
-        'type'    => 'textarea',
-    ) );
-
-    // --- SECCIÓN PORTALES DUALES ---
-    $wp_customize->add_section( 'atrevidas_hero_section', array(
-        'title'    => __( 'Portada: Portales Duales (Lencería vs Juguetes)', 'theme-simple-woo' ),
-        'priority' => 30,
-    ) );
-
-    $wp_customize->add_setting( 'atrevidas_hero_lenceria', array( 'default' => '', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_lenceria', array(
-        'label' => __( 'Imagen Mitad Lencería', 'theme-simple-woo' ), 'section' => 'atrevidas_hero_section', 'settings' => 'atrevidas_hero_lenceria'
-    ) ) );
-
-    $wp_customize->add_setting( 'atrevidas_hero_juguetes', array( 'default' => '', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_hero_juguetes', array(
-        'label' => __( 'Imagen Mitad Juguetes', 'theme-simple-woo' ), 'section' => 'atrevidas_hero_section', 'settings' => 'atrevidas_hero_juguetes'
-    ) ) );
-
-    // --- SECCIÓN WHATSAPP & CONTACTO ---
-    $wp_customize->add_section( 'atrevidas_whatsapp_section', array(
-        'title'    => __( 'Atrevidas: WhatsApp y Atención', 'theme-simple-woo' ),
-        'priority' => 31,
-    ) );
-
-    $wp_customize->add_setting( 'atrevidas_whatsapp_number', array( 'default' => '', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( 'atrevidas_whatsapp_number', array(
-        'label'       => __( 'Número de WhatsApp Oficial', 'theme-simple-woo' ),
-        'description' => __( 'Ej: 5491123456789 o 11 2345-6789. Se aplicará automáticamente al botón flotante y asesoramiento.', 'theme-simple-woo' ),
-        'section'     => 'atrevidas_whatsapp_section',
-        'type'        => 'text',
-    ) );
-
-    $wp_customize->add_setting( 'atrevidas_whatsapp_msg', array(
-        'default'   => 'Hola Atrevidas! Quiero hacer una consulta con total discreción.',
-        'transport' => 'refresh',
-    ) );
-    $wp_customize->add_control( 'atrevidas_whatsapp_msg', array(
-        'label'       => __( 'Mensaje predeterminado de WhatsApp', 'theme-simple-woo' ),
-        'description' => __( 'Texto con el que iniciará la conversación el cliente.', 'theme-simple-woo' ),
-        'section'     => 'atrevidas_whatsapp_section',
-        'type'        => 'textarea',
-    ) );
-
-    // --- SECCIÓN SPOTLIGHT (CULTURA ATREVIDA) ---
-    $wp_customize->add_section( 'atrevidas_spotlight_section', array(
-        'title'    => __( 'Portada: Banner Spotlight', 'theme-simple-woo' ),
-        'priority' => 32,
-    ) );
-
-    $wp_customize->add_setting( 'atrevidas_spotlight_img', array( 'default' => '', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'atrevidas_spotlight_img', array(
-        'label'   => __( 'Imagen de Campaña', 'theme-simple-woo' ),
-        'section' => 'atrevidas_spotlight_section',
-    ) ) );
-
-    $wp_customize->add_setting( 'atrevidas_spotlight_tag', array( 'default' => '✨ Cultura Atrevida', 'transport' => 'refresh' ) );
-    $wp_customize->add_control( 'atrevidas_spotlight_tag', array(
-        'label'   => __( 'Tag Superior', 'theme-simple-woo' ),
-        'section' => 'atrevidas_spotlight_section',
-        'type'    => 'text',
-    ) );
-
-    $wp_customize->add_setting( 'atrevidas_spotlight_title', array(
-        'default'   => 'Explorá tu sensualidad sin tabúes y a tu propio ritmo.',
-        'transport' => 'refresh',
-    ) );
-    $wp_customize->add_control( 'atrevidas_spotlight_title', array(
-        'label'   => __( 'Título Principal', 'theme-simple-woo' ),
-        'section' => 'atrevidas_spotlight_section',
-        'type'    => 'textarea',
-    ) );
-
-    $wp_customize->add_setting( 'atrevidas_spotlight_desc', array(
-        'default'   => 'Seleccionamos cada prenda y cada accesorio pensando en tu bienestar, seguridad y máximo placer. Calidad superior con asesoramiento personalizado y confidencial.',
-        'transport' => 'refresh',
-    ) );
-    $wp_customize->add_control( 'atrevidas_spotlight_desc', array(
-        'label'   => __( 'Descripción', 'theme-simple-woo' ),
-        'section' => 'atrevidas_spotlight_section',
-        'type'    => 'textarea',
+/**
+ * Inyectar defaults comerciales propios de Atrevidas en el motor Core.
+ */
+add_filter( 'simple_woo_default_options', 'atrevidas_child_default_options' );
+function atrevidas_child_default_options( array $defaults ): array {
+    return array_merge( $defaults, array(
+        'enable_mega_menu'        => 'yes',
+        'top_announcement_text'   => '🔥 10% OFF Efectivo (Concepción del Uruguay) | 5% OFF Transferencia | Envíos 100% Discretos a todo el país 🚀',
+        'gs_pickup_title'         => 'Retiro sin cargo',
+        'gs_pickup_description'   => 'Retirá sin costo en nuestro punto de entrega con total discreción.',
+        'gs_express_title'        => 'Envío Rápido y Discreto',
+        'gs_express_description'  => 'Recibí tu pedido en <strong>24 a 48 hs hábiles</strong> en empaque 100% reservado.',
+        'gs_correo_title'         => 'Envíos 100% Discretos a todo el país',
+        'gs_correo_description'   => 'Despachamos en cajas lisas sin logos a domicilio o sucursal de Correo.',
+        'gs_cod_description'      => 'en Efectivo / Contrareembolso',
+        'gs_show_low_stock_badge' => 'no',
+        'gs_new_arrival_days'     => '30',
+        'gs_new_arrival_text'     => '✨ Nuevo Ingreso',
+        'gs_whatsapp_message'     => sw_child_get_mod( 'sw_whatsapp_msg', 'Hola Atrevidas! Quiero hacer una consulta con total discreción.', array( 'atrevidas_whatsapp_msg' ) ),
+        'gs_archive_subtitle'     => 'Colección Exclusiva',
+        'gs_cross_sell_subtitle'  => 'Selección Sugerida',
+        'gs_cross_sell_title'     => 'Completá tu Experiencia',
     ) );
 }
 
 /**
- * Función Recursiva para automatizar el Mega Menú de WooCommerce.
- * Extrae toda la jerarquía de categorías respetando el orden manual (menu_order).
+ * Añadir opciones al Personalizador con claves universales (sw_*) y controles completos.
  */
-function atrevidas_get_category_tree( $parent_id = 0 ) {
-    $terms = get_terms( array(
-        'taxonomy'   => 'product_cat',
-        'hide_empty' => true,
-        'parent'     => $parent_id,
-        'orderby'    => 'menu_order',
-        'order'      => 'ASC',
+add_action( 'customize_register', 'atrevidas_customize_register' );
+function atrevidas_customize_register( $wp_customize ) {
+    // --- SECCIÓN HERO PRINCIPAL (BANNER PANORÁMICO) ---
+    $wp_customize->add_section( 'sw_hero_section', array(
+        'title'    => __( 'Portada: Hero Principal (Banner)', 'theme-simple-woo' ),
+        'priority' => 29,
     ) );
-    
-    $tree = array();
-    if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
-        foreach ( $terms as $term ) {
-            // Excluir la categoría por defecto de WooCommerce
-            if ( $term->slug === 'uncategorized' || $term->slug === 'sin-categorizar' ) {
-                continue;
-            }
-            $tree[] = array(
-                'term'     => $term,
-                'children' => atrevidas_get_category_tree( $term->term_id ),
-            );
-        }
+
+    $wp_customize->add_setting( 'sw_hero_image_desktop', array( 'default' => sw_child_get_mod( 'sw_hero_image_desktop', '', array( 'atrevidas_hero_banner_img' ) ), 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'sw_hero_image_desktop', array(
+        'label'   => __( 'Imagen Desktop (Panorámica)', 'theme-simple-woo' ),
+        'section' => 'sw_hero_section',
+    ) ) );
+
+    $wp_customize->add_setting( 'sw_hero_image', array( 'default' => sw_child_get_mod( 'sw_hero_image', '', array( 'atrevidas_hero_banner_img_mobile' ) ), 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'sw_hero_image', array(
+        'label'   => __( 'Imagen Móvil (Vertical)', 'theme-simple-woo' ),
+        'section' => 'sw_hero_section',
+    ) ) );
+
+    $wp_customize->add_setting( 'sw_hero_subtitle', array( 'default' => 'Nueva Colección · Lencería & Bienestar', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_hero_subtitle', array( 'label' => __( 'Subtítulo Superior', 'theme-simple-woo' ), 'section' => 'sw_hero_section', 'type' => 'text' ) );
+
+    $wp_customize->add_setting( 'sw_hero_title', array( 'default' => 'Viví tu sensualidad<br>con total libertad.', 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+    $wp_customize->add_control( 'sw_hero_title', array( 'label' => __( 'Título Principal (acepta <br>)', 'theme-simple-woo' ), 'section' => 'sw_hero_section', 'type' => 'textarea' ) );
+
+    $wp_customize->add_setting( 'sw_hero_desc', array( 'default' => 'Diseños exclusivos y accesorios de calidad superior pensados para tu máximo placer y confort.', 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+    $wp_customize->add_control( 'sw_hero_desc', array( 'label' => __( 'Descripción', 'theme-simple-woo' ), 'section' => 'sw_hero_section', 'type' => 'textarea' ) );
+
+    $wp_customize->add_setting( 'sw_hero_btn1_text', array( 'default' => 'Ver Lencería', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_hero_btn1_text', array( 'label' => 'Botón 1: Texto', 'section' => 'sw_hero_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_hero_btn1_url', array( 'default' => '', 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( 'sw_hero_btn1_url', array( 'label' => 'Botón 1: URL', 'section' => 'sw_hero_section', 'type' => 'url' ) );
+
+    $wp_customize->add_setting( 'sw_hero_btn2_text', array( 'default' => 'Explorar Sexshop ✨', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_hero_btn2_text', array( 'label' => 'Botón 2: Texto', 'section' => 'sw_hero_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_hero_btn2_url', array( 'default' => '', 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( 'sw_hero_btn2_url', array( 'label' => 'Botón 2: URL', 'section' => 'sw_hero_section', 'type' => 'url' ) );
+
+    // --- SECCIÓN PORTALES DUALES ---
+    $wp_customize->add_section( 'sw_portals_section', array(
+        'title'    => __( 'Portada: Portales Duales (Lencería vs Juguetes)', 'theme-simple-woo' ),
+        'priority' => 30,
+    ) );
+
+    $wp_customize->add_setting( 'sw_portal1_img', array( 'default' => sw_child_get_mod( 'sw_portal1_img', '', array( 'atrevidas_hero_lenceria' ) ), 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'sw_portal1_img', array(
+        'label' => __( 'Portal 1: Imagen (Lencería)', 'theme-simple-woo' ), 'section' => 'sw_portals_section', 'settings' => 'sw_portal1_img'
+    ) ) );
+    $wp_customize->add_setting( 'sw_portal1_tag', array( 'default' => 'Colección', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_portal1_tag', array( 'label' => 'Portal 1: Tag', 'section' => 'sw_portals_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_portal1_title', array( 'default' => 'Lencería Erótica', 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+    $wp_customize->add_control( 'sw_portal1_title', array( 'label' => 'Portal 1: Título', 'section' => 'sw_portals_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_portal1_desc', array( 'default' => 'Combiná talles y armá tu outfit perfecto.', 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+    $wp_customize->add_control( 'sw_portal1_desc', array( 'label' => 'Portal 1: Descripción', 'section' => 'sw_portals_section', 'type' => 'textarea' ) );
+    $wp_customize->add_setting( 'sw_portal1_btn', array( 'default' => 'Ver Colección', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_portal1_btn', array( 'label' => 'Portal 1: Botón', 'section' => 'sw_portals_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_portal1_url', array( 'default' => '', 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( 'sw_portal1_url', array( 'label' => 'Portal 1: URL', 'section' => 'sw_portals_section', 'type' => 'url' ) );
+
+    $wp_customize->add_setting( 'sw_portal2_img', array( 'default' => sw_child_get_mod( 'sw_portal2_img', '', array( 'atrevidas_hero_juguetes' ) ), 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'sw_portal2_img', array(
+        'label' => __( 'Portal 2: Imagen (Juguetes)', 'theme-simple-woo' ), 'section' => 'sw_portals_section', 'settings' => 'sw_portal2_img'
+    ) ) );
+    $wp_customize->add_setting( 'sw_portal2_tag', array( 'default' => 'Sexshop', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_portal2_tag', array( 'label' => 'Portal 2: Tag', 'section' => 'sw_portals_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_portal2_title', array( 'default' => 'Sexshop & Juguetes', 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+    $wp_customize->add_control( 'sw_portal2_title', array( 'label' => 'Portal 2: Título', 'section' => 'sw_portals_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_portal2_desc', array( 'default' => 'Descubrí diferentes formas de disfrutar.', 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+    $wp_customize->add_control( 'sw_portal2_desc', array( 'label' => 'Portal 2: Descripción', 'section' => 'sw_portals_section', 'type' => 'textarea' ) );
+    $wp_customize->add_setting( 'sw_portal2_btn', array( 'default' => 'Explorar', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_portal2_btn', array( 'label' => 'Portal 2: Botón', 'section' => 'sw_portals_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_portal2_url', array( 'default' => '', 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( 'sw_portal2_url', array( 'label' => 'Portal 2: URL', 'section' => 'sw_portals_section', 'type' => 'url' ) );
+
+    // --- SECCIÓN WHATSAPP & CONTACTO ---
+    $wp_customize->add_section( 'sw_whatsapp_section', array(
+        'title'    => __( 'Atrevidas: WhatsApp y Atención', 'theme-simple-woo' ),
+        'priority' => 31,
+    ) );
+
+    $wp_customize->add_setting( 'sw_whatsapp_number', array( 'default' => sw_child_get_mod( 'sw_whatsapp_number', '', array( 'atrevidas_whatsapp_number' ) ), 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_whatsapp_number', array(
+        'label'       => __( 'Número de WhatsApp Oficial', 'theme-simple-woo' ),
+        'description' => __( 'Ej: 5491123456789 o 11 2345-6789. Se aplicará automáticamente al botón flotante y asesoramiento.', 'theme-simple-woo' ),
+        'section'     => 'sw_whatsapp_section',
+        'type'        => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'sw_whatsapp_msg', array(
+        'default'           => 'Hola Atrevidas! Quiero hacer una consulta con total discreción.',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ) );
+    $wp_customize->add_control( 'sw_whatsapp_msg', array(
+        'label'       => __( 'Mensaje predeterminado de WhatsApp', 'theme-simple-woo' ),
+        'description' => __( 'Texto con el que iniciará la conversación el cliente.', 'theme-simple-woo' ),
+        'section'     => 'sw_whatsapp_section',
+        'type'        => 'textarea',
+    ) );
+
+    // --- SECCIÓN SPOTLIGHT (CULTURA ATREVIDA) ---
+    $wp_customize->add_section( 'sw_spotlight_section', array(
+        'title'    => __( 'Portada: Banner Spotlight', 'theme-simple-woo' ),
+        'priority' => 32,
+    ) );
+
+    $wp_customize->add_setting( 'sw_spotlight_img', array( 'default' => sw_child_get_mod( 'sw_spotlight_img', '', array( 'atrevidas_spotlight_img' ) ), 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'sw_spotlight_img', array(
+        'label'   => __( 'Imagen de Campaña', 'theme-simple-woo' ),
+        'section' => 'sw_spotlight_section',
+    ) ) );
+
+    $wp_customize->add_setting( 'sw_spotlight_tag', array( 'default' => '✨ Cultura Atrevida', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_spotlight_tag', array( 'label' => __( 'Tag Superior', 'theme-simple-woo' ), 'section' => 'sw_spotlight_section', 'type' => 'text' ) );
+
+    $wp_customize->add_setting( 'sw_spotlight_title', array( 'default' => 'Explorá tu sensualidad sin tabúes y a tu propio ritmo.', 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+    $wp_customize->add_control( 'sw_spotlight_title', array( 'label' => __( 'Título Principal', 'theme-simple-woo' ), 'section' => 'sw_spotlight_section', 'type' => 'textarea' ) );
+
+    $wp_customize->add_setting( 'sw_spotlight_desc', array( 'default' => 'Seleccionamos cada prenda y cada accesorio pensando en tu bienestar, seguridad y máximo placer. Calidad superior con asesoramiento personalizado y confidencial.', 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+    $wp_customize->add_control( 'sw_spotlight_desc', array( 'label' => __( 'Descripción', 'theme-simple-woo' ), 'section' => 'sw_spotlight_section', 'type' => 'textarea' ) );
+
+    $default_spotlight_bullets = array(
+        1 => array( 'icon' => 'favorite', 'title' => 'Materiales Seguros para tu Cuerpo', 'desc' => 'Silicona médica grado alimentario, libres de ftalatos y lencería con acabados suaves.' ),
+        2 => array( 'icon' => 'lock', 'title' => 'Discreción y Privacidad Garantizada', 'desc' => 'Envío completamente sellado y facturación reservada sin menciones al rubro.' ),
+        3 => array( 'icon' => 'forum', 'title' => 'Asesoramiento Sin Prejuicios', 'desc' => 'Consultanos por WhatsApp y te ayudamos a elegir la opción ideal para vos o tu pareja.' ),
+    );
+    foreach ( $default_spotlight_bullets as $i => $b ) {
+        $wp_customize->add_setting( "sw_spotlight_li{$i}_icon", array( 'default' => $b['icon'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+        $wp_customize->add_control( "sw_spotlight_li{$i}_icon", array( 'label' => "Viñeta {$i}: Ícono (Material Symbol)", 'section' => 'sw_spotlight_section', 'type' => 'text' ) );
+        $wp_customize->add_setting( "sw_spotlight_li{$i}_title", array( 'default' => $b['title'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+        $wp_customize->add_control( "sw_spotlight_li{$i}_title", array( 'label' => "Viñeta {$i}: Título", 'section' => 'sw_spotlight_section', 'type' => 'text' ) );
+        $wp_customize->add_setting( "sw_spotlight_li{$i}_desc", array( 'default' => $b['desc'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+        $wp_customize->add_control( "sw_spotlight_li{$i}_desc", array( 'label' => "Viñeta {$i}: Descripción", 'section' => 'sw_spotlight_section', 'type' => 'text' ) );
     }
-    return $tree;
+
+    $wp_customize->add_setting( 'sw_spotlight_btn', array( 'default' => 'Explorar Catálogo Completo', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_spotlight_btn', array( 'label' => 'Botón: Texto', 'section' => 'sw_spotlight_section', 'type' => 'text' ) );
+    $wp_customize->add_setting( 'sw_spotlight_url', array( 'default' => '', 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw' ) );
+    $wp_customize->add_control( 'sw_spotlight_url', array( 'label' => 'Botón: URL', 'section' => 'sw_spotlight_section', 'type' => 'url' ) );
+
+    // --- SECCIÓN TRUST PILLARS ---
+    $wp_customize->add_section( 'sw_trust_section', array( 'title' => 'Portada: Pilares de Confianza', 'priority' => 33 ) );
+    $default_pillars = array(
+        1 => array( 'icon' => 'inventory_2', 'title' => 'Empaque 100% Discreto', 'desc' => 'Cajas y sobres lisos sin logos ni menciones al rubro. Absoluta reserva.' ),
+        2 => array( 'icon' => 'verified_user', 'title' => 'Privacidad en tu Resumen', 'desc' => 'Pagá con tarjetas o transferencias. Razón social neutra en tu estado de cuenta.' ),
+        3 => array( 'icon' => 'percent', 'title' => 'Hasta [best_pct]% OFF', 'desc' => 'Ahorrá abonando mediante transferencia bancaria o en efectivo.' ),
+        4 => array( 'icon' => 'chat', 'title' => 'Asesoramiento Íntimo', 'desc' => 'Atención y dudas frecuentes vía WhatsApp con total confidencialidad.' ),
+    );
+    foreach ( $default_pillars as $i => $p ) {
+        $wp_customize->add_setting( "sw_trust_pilar{$i}_icon", array( 'default' => $p['icon'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+        $wp_customize->add_control( "sw_trust_pilar{$i}_icon", array( 'label' => "Pilar {$i}: Ícono (Material Symbol)", 'section' => 'sw_trust_section', 'type' => 'text' ) );
+        $wp_customize->add_setting( "sw_trust_pilar{$i}_title", array( 'default' => $p['title'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+        $wp_customize->add_control( "sw_trust_pilar{$i}_title", array( 'label' => "Pilar {$i}: Título", 'section' => 'sw_trust_section', 'type' => 'text' ) );
+        $wp_customize->add_setting( "sw_trust_pilar{$i}_desc", array( 'default' => $p['desc'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_textarea_field' ) );
+        $wp_customize->add_control( "sw_trust_pilar{$i}_desc", array( 'label' => "Pilar {$i}: Descripción", 'section' => 'sw_trust_section', 'type' => 'textarea' ) );
+    }
+    $wp_customize->add_setting( 'sw_trust_pilar4_link_text', array( 'default' => 'Chatear ahora', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+    $wp_customize->add_control( 'sw_trust_pilar4_link_text', array( 'label' => 'Pilar 4: Texto del Enlace', 'section' => 'sw_trust_section', 'type' => 'text' ) );
+
+    // --- SECCIÓN FAQ ---
+    $wp_customize->add_section( 'sw_faq_section', array( 'title' => 'Portada: Preguntas Frecuentes', 'priority' => 34 ) );
+    $default_faqs = array(
+        1 => array(
+            'q' => '¿Cómo vienen embalados los paquetes? ¿Se nota qué hay adentro?',
+            'a' => 'La discreción es nuestra máxima prioridad. Todos los pedidos se despachan en cajas o sobres lisos, totalmente sellados y sin ningún tipo de logo, inscripción ni mención de Sexshop o Atrevidas. El remitente es una persona o razón social genérica, de modo que nadie sabrá el contenido del paquete.',
+        ),
+        2 => array(
+            'q' => '¿Qué nombre aparece en el resumen de mi tarjeta o banco?',
+            'a' => 'Tu privacidad financiera está protegida. En el resumen de tu tarjeta de crédito, débito o cuenta bancaria aparecerá únicamente una razón social neutra o el procesador de pagos utilizado (por ejemplo, Mercado Pago o Gateway de Pagos), sin ninguna referencia al rubro de productos íntimos.',
+        ),
+        3 => array(
+            'q' => '¿Cómo sé cuál es mi talle de lencería y cuál es la política de cambios?',
+            'a' => 'En la ficha de cada conjunto encontrás una guía de medidas detallada. Por estrictas normas de higiene y salud pública, las prendas de lencería y bombachas no admiten cambio una vez abiertas. En caso de juguetes o accesorios electrónicos, cuentan con garantía directa ante fallas de fábrica dentro del período establecido.',
+        ),
+        4 => array(
+            'q' => '¿Cuáles son los tiempos de entrega y métodos de envío?',
+            'a' => 'Realizamos envíos a todo el país mediante correo privado o encomienda con seguimiento online. Además, podés elegir retirar en sucursal del correo para mayor reserva si preferís no recibirlo en tu domicilio. Los despachos se procesan en 24 a 48 hs hábiles desde la confirmación de la compra.',
+        ),
+    );
+    foreach ( $default_faqs as $i => $faq ) {
+        $wp_customize->add_setting( "sw_faq_{$i}_q", array( 'default' => $faq['q'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field' ) );
+        $wp_customize->add_control( "sw_faq_{$i}_q", array( 'label' => "Pregunta {$i}", 'section' => 'sw_faq_section', 'type' => 'text' ) );
+        $wp_customize->add_setting( "sw_faq_{$i}_a", array( 'default' => $faq['a'], 'transport' => 'refresh', 'sanitize_callback' => 'wp_kses_post' ) );
+        $wp_customize->add_control( "sw_faq_{$i}_a", array( 'label' => "Respuesta {$i}", 'section' => 'sw_faq_section', 'type' => 'textarea' ) );
+    }
 }
 
 /**
@@ -252,7 +378,6 @@ function atrevidas_custom_care_accordion() {
 /**
  * Reemplazar la barra de beneficios genérica por una sección educativa en el Archive de Atrevidas.
  */
-
 add_action( 'gs_archive_benefits_bar', 'atrevidas_archive_educational_bar' );
 function atrevidas_archive_educational_bar() {
     ?>
@@ -301,15 +426,11 @@ add_action( 'after_setup_theme', function() {
  * Obtener la URL de WhatsApp de Atrevidas con número y mensaje de discreción normalizados.
  */
 function atrevidas_get_whatsapp_url() {
-    $custom_number = get_theme_mod( 'atrevidas_whatsapp_number' );
+    $custom_number = sw_child_get_mod( 'sw_whatsapp_number', '', array( 'atrevidas_whatsapp_number' ) );
     $number = ! empty( $custom_number ) ? preg_replace( '/\D/', '', $custom_number ) : '';
 
     if ( empty( $number ) && function_exists( 'gs_get_store_whatsapp_number' ) ) {
         $number = gs_get_store_whatsapp_number();
-    }
-
-    if ( empty( $number ) ) {
-        $number = '5491169542528';
     }
 
     // Normalización para Argentina
@@ -321,8 +442,12 @@ function atrevidas_get_whatsapp_url() {
         $number = '549' . substr( $number, 2 );
     }
 
-    $raw_msg = get_theme_mod( 'atrevidas_whatsapp_msg', 'Hola Atrevidas! Quiero hacer una consulta con total discreción.' );
+    $raw_msg = sw_child_get_mod( 'sw_whatsapp_msg', 'Hola Atrevidas! Quiero hacer una consulta con total discreción.', array( 'atrevidas_whatsapp_msg' ) );
     $encoded_msg = rawurlencode( $raw_msg );
+
+    if ( empty( $number ) ) {
+        return 'https://wa.me/' . ( $encoded_msg ? '?text=' . $encoded_msg : '' );
+    }
 
     return 'https://wa.me/' . $number . ( $encoded_msg ? '?text=' . $encoded_msg : '' );
 }
@@ -338,6 +463,7 @@ add_filter( 'gs_store_whatsapp_url', function( $url, $raw_number ) {
  * Filtro pre_option para que cualquier consulta de la opción use el número de Atrevidas si está seteado
  */
 add_filter( 'pre_option_grow_socks_whatsapp_number', function( $pre ) {
-    $custom = get_theme_mod( 'atrevidas_whatsapp_number' );
+    $custom = sw_child_get_mod( 'sw_whatsapp_number', '', array( 'atrevidas_whatsapp_number' ) );
     return ! empty( $custom ) ? $custom : $pre;
 } );
+

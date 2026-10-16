@@ -10,27 +10,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$faqs = array(
-	array(
+$default_faqs = array(
+	1 => array(
 		'q' => '¿Cómo vienen embalados los paquetes? ¿Se nota qué hay adentro?',
 		'a' => 'La discreción es nuestra máxima prioridad. Todos los pedidos se despachan en cajas o sobres lisos, totalmente sellados y sin ningún tipo de logo, inscripción ni mención de Sexshop o Atrevidas. El remitente es una persona o razón social genérica, de modo que nadie sabrá el contenido del paquete.',
 	),
-	array(
+	2 => array(
 		'q' => '¿Qué nombre aparece en el resumen de mi tarjeta o banco?',
 		'a' => 'Tu privacidad financiera está protegida. En el resumen de tu tarjeta de crédito, débito o cuenta bancaria aparecerá únicamente una razón social neutra o el procesador de pagos utilizado (por ejemplo, Mercado Pago o Gateway de Pagos), sin ninguna referencia al rubro de productos íntimos.',
 	),
-	array(
+	3 => array(
 		'q' => '¿Cómo sé cuál es mi talle de lencería y cuál es la política de cambios?',
 		'a' => 'En la ficha de cada conjunto encontrás una guía de medidas detallada. Por estrictas normas de higiene y salud pública, las prendas de lencería y bombachas no admiten cambio una vez abiertas. En caso de juguetes o accesorios electrónicos, cuentan con garantía directa ante fallas de fábrica dentro del período establecido.',
 	),
-	array(
+	4 => array(
 		'q' => '¿Cuáles son los tiempos de entrega y métodos de envío?',
 		'a' => 'Realizamos envíos a todo el país mediante correo privado o encomienda con seguimiento online. Además, podés elegir retirar en sucursal del correo para mayor reserva si preferís no recibirlo en tu domicilio. Los despachos se procesan en 24 a 48 hs hábiles desde la confirmación de la compra.',
 	),
 );
+
+$faqs = array();
+foreach ( $default_faqs as $i => $item ) {
+	$q = sw_child_get_mod( "sw_faq_{$i}_q", $item['q'] );
+	$a = sw_child_get_mod( "sw_faq_{$i}_a", $item['a'] );
+	if ( ! empty( $q ) && ! empty( $a ) ) {
+		$faqs[] = array( 'q' => $q, 'a' => $a );
+	}
+}
 ?>
 
-<section class="gs-faq w-full px-4 sm:px-6 lg:px-8 py-12 md:py-16 bg-surface" aria-label="Preguntas frecuentes">
+<section class="sw-faq gs-faq w-full px-4 sm:px-6 lg:px-8 py-12 md:py-16 bg-surface" aria-label="Preguntas frecuentes">
 	<div class="max-w-3xl mx-auto">
 
 		<div class="text-center mb-8">

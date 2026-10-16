@@ -23,51 +23,44 @@ Hereda del Core:
 theme-atrevidas-child/
 ├── template-parts/
 │   └── home/
-│       ├── hero.php            # Banner panorámico responsive con ocultamiento automático si no hay imagen
-│       ├── category-chips.php  # Accesos rápidos a categorías dinámicas de WooCommerce vía gs_get_home_category_chips()
-│       ├── dual-portals.php    # Banners de Portales Duales (Lencería vs Juguetes & Bienestar)
+│       ├── hero.php            # Banner panorámico responsive con soporte sw_* y clases neutrales
+│       ├── dual-portals.php    # Banners de Portales Duales configurables (Lencería vs Juguetes & Bienestar)
 │       ├── featured-products.php# Grilla de productos más deseados con transient cache
-│       ├── spotlight.php       # Destacado editorial de Cultura Atrevida y Bienestar Íntimo
+│       ├── spotlight.php       # Destacado editorial de Cultura Atrevida con 3 viñetas dinámicas
 │       ├── trust-pillars.php   # 4 Pilares de confianza (Empaque Discreto, Pagos Privados, Descuentos, Asesoramiento)
-│       └── faq-accordion.php   # Acordeón de dudas frecuentes sobre privacidad y envíos (<details> nativo)
+│       └── faq-accordion.php   # Acordeón de dudas frecuentes dinámico sobre privacidad y envíos (<details> nativo)
 ├── front-page.php              # Orquestador modular limpio de la portada de Atrevidas
-├── header.php                  # Header personalizado con anuncio de retiro en Concepción del Uruguay y Mega Menú
-├── functions.php               # Encolado de tokens, personalizador, filtros de privacidad y hooks de WooCommerce
-├── tokens.css                  # Overrides de variables CSS (paleta fucsia/magenta, superficies y radios suaves)
+├── functions.php               # Encolado de tokens, personalizador sw_*, migración y hooks de WooCommerce
+├── tokens.css                  # Overrides de variables CSS (paleta fucsia, header tokens, geometría y radios suaves)
 ├── style.css                   # Declaración del Child Theme (Template: theme-simple-woo)
 └── README.md                   # Esta documentación
 ```
+*Nota:* `header.php`, `index.php` y `category-chips.php` se eliminaron del Child Theme para ser gestionados directamente por el Core Engine `theme-simple-woo`, eliminando 140 líneas de CSS duplicado y habilitando herencia transparente de mejoras de rendimiento y accesibilidad.
 
 ---
 
 ## 3. Opciones del Personalizador de WordPress
 
-Desde el panel de administración (**Apariencia > Personalizar**), el tema expone paneles dedicados para gestionar imágenes, textos y llamadas a la acción en tiempo real:
+Desde el panel de administración (**Apariencia > Personalizar**), el tema expone paneles unificados bajo el estándar universal `sw_*`:
 
-### 3.1. Portada: Hero Principal (Banner) (`atrevidas_banner_section`)
-- **Imagen Desktop (Panorámica):** Fotografía horizontal de alto impacto para pantallas grandes.
-- **Imagen Móvil (Vertical):** Fotografía vertical optimizada para smartphones entregada mediante `<picture>`.
-- **Subtítulo Superior:** Etiqueta superior (ej: *Nueva Colección · Lencería & Bienestar*).
-- **Título Principal:** Titular de impacto (admite saltos de línea `<br>`).
-- **Descripción:** Texto complementario del hero.
-- *Nota de rendimiento:* Si no se configuran imágenes, la sección se oculta automáticamente para priorizar el catálogo.
+### 3.1. Estandarización Universal (`sw_*`) y Migración Transparente
+- Todas las opciones se gestionan con el prefijo neutral `sw_*` y se leen mediante `sw_child_get_mod( $sw_key, $default, $legacy_keys )`.
+- En el evento `init`, la función `atrevidas_migrate_legacy_mods_to_sw()` migra automáticamente en un solo paso cualquier valor previo guardado bajo `atrevidas_*` en la base de datos de producción, garantizando **cero pérdida de datos**.
 
-### 3.2. Portada: Accesos Rápidos (Categorías) (`simple_woo_category_chips_section`)
-- **Heredado del Core:** Permite tildar qué categorías mostrar en la barra deslizante debajo del Hero.
-- **Fallback Automático:** Si no se marca ninguna, lista automáticamente todas las categorías principales con stock publicado (`hide_empty => true`) ordenadas por `menu_order`.
-- **Destino del Enlace:** Enlaces canónicos directos a la categoría nativa (`get_term_link()`).
+### 3.2. Defaults Comerciales Inyectados (`simple_woo_default_options`)
+Mediante el filtro `atrevidas_child_default_options` conectado a `simple_woo_default_options`, Atrevidas inyecta sus textos y configuraciones propias en el Core:
+- **Mega Menú:** `enable_mega_menu = 'yes'`.
+- **Anuncio Superior:** `🔥 10% OFF Efectivo (Concepción del Uruguay) | 5% OFF Transferencia | Envíos 100% Discretos a todo el país 🚀`.
+- **Retiro y Envíos:** `Retiro sin cargo`, `Envío Rápido y Discreto` (24 a 48 hs hábiles), `Envíos 100% Discretos a todo el país` (cajas lisas sin logos).
+- **Insignias y Catálogo:** `gs_show_low_stock_badge = 'no'`, `gs_new_arrival_days = '30'`, `gs_archive_subtitle = 'Colección Exclusiva'`.
 
-### 3.3. Portada: Portales Duales (`atrevidas_hero_section`)
-- **Imagen Mitad Lencería:** Fotografía del portal de lencería y corsetería.
-- **Imagen Mitad Juguetes:** Fotografía del portal de juguetes y bienestar íntimo.
-
-### 3.4. Atrevidas: WhatsApp y Atención (`atrevidas_whatsapp_section`)
-- **Número de WhatsApp Oficial:** Teléfono de atención confidencial aplicado al botón flotante y asesoramiento.
-- **Mensaje Predeterminado:** Texto inicial automático al abrir el chat (ej: *"Hola Atrevidas! Quiero hacer una consulta con total discreción"*).
-
-### 3.5. Portada: Spotlight Cultura Atrevida (`atrevidas_spotlight_section`)
-- Fotografía editorial de bienestar y empoderamiento íntimo.
-- Tag superior, título editorial, descripción y 3 viñetas de valores de marca.
+### 3.3. Controles del Personalizador Disponibles
+1. **Portada: Hero Principal (Banner) (`sw_hero_section`):** Imagen desktop panorámica (`sw_hero_image_desktop`), imagen móvil vertical (`sw_hero_image`), subtítulo, título, descripción y botones 1 y 2 con URLs (si no hay imágenes configuradas, se oculta automáticamente).
+2. **Portada: Portales Duales (`sw_portals_section`):** Imágenes, tags, títulos, descripciones, botones y URLs para Portal 1 (Lencería) y Portal 2 (Juguetes).
+3. **Atrevidas: WhatsApp y Atención (`sw_whatsapp_section`):** Número de WhatsApp oficial y mensaje predeterminado con discreción.
+4. **Portada: Banner Spotlight (`sw_spotlight_section`):** Imagen de campaña, tag superior, título, descripción, 3 viñetas con íconos Material Symbols configurables y botón con URL.
+5. **Portada: Pilares de Confianza (`sw_trust_section`):** Íconos, títulos y descripciones para los 4 pilares, soporte para placeholders de descuento y enlace/texto de chat en el Pilar 4.
+6. **Portada: Preguntas Frecuentes (`sw_faq_section`):** Edición completa de las 4 preguntas (`sw_faq_1..4_q`) y respuestas (`sw_faq_1..4_a`).
 
 ---
 
@@ -76,25 +69,32 @@ Desde el panel de administración (**Apariencia > Personalizar**), el tema expon
 1. **Ocultamiento de SKU en PDP:**
    Filtro `wc_product_sku_enabled` desactivado para mantener la ficha de producto limpia y libre de códigos técnicos internos.
 2. **Acordeón de Cuidado y Discreción en Producto (`atrevidas_custom_care_accordion`):**
-   Enganchado a `gs_after_single_product_accordions`, inyecta un acordeón adicional con garantía de empaque neutro sin logotipos y recomendaciones de cuidado y sanitización de productos íntimos.
+   Enganchado a `gs_after_single_product_accordions`, inyecta el 4.º acordeón *"Ritual de Cuidados"* con recomendaciones sobre higiene de juguetes, cuidado de baterías, lencería fina y almacenamiento.
 3. **Barra Educativa en Catálogo (`atrevidas_archive_educational_bar`):**
-   Enganchado a `gs_archive_benefits_bar`, sustituye la barra genérica por 3 pilares clave de la marca: *Envíos 100% Discretos*, *Pagos Privados* y *Asesoramiento Reservado*.
-4. **Mega Menú Multinivel en Escritorio (`atrevidas_get_category_tree`):**
-   En `header.php`, genera un menú de navegación horizontal para pantallas XL con desplegables automáticos de categorías y subcategorías reales de WooCommerce.
+   Enganchado a `gs_archive_benefits_bar`, sustituye la barra genérica por la sección educativa *"La Cultura Atrevida: Cuidá tu placer y tus prendas"* (Higiene de Juguetes, Motores y Baterías, Delicadeza en Lencería).
+4. **Mega Menú Nativo del Core:**
+   Aprovecha el motor `.gs-mega` y `simple_woo_get_category_tree()` del Core Engine con activación por filtro, sin código duplicado en el Child Theme.
 5. **Desacople de Datos de Contacto:**
-   Filtros `gs_store_whatsapp_url` y `pre_option_grow_socks_whatsapp_number` para sobreescribir el número del Core sin generar dependencias cruzadas.
+   Filtros `gs_store_whatsapp_url` y `pre_option_grow_socks_whatsapp_number` para sobreescribir el número y mensaje del Core de forma transparente.
 
 ---
 
 ## 5. Tokens de Diseño y Estilos (`tokens.css`)
 
 - **Paleta Sensual y Femenina:**
-  - Primario: `--color-primary-rgb: 187 36 94` (Magenta / Fucsia intenso).
-  - Superficies: Fondos suaves y luminosos con tinte cálido (`--color-surface-rgb: 254 247 249`).
-  - Superficie contenedora: `--color-surface-container-rgb: 252 235 240`.
+  - Primario: `--color-primary-rgb: 221 26 131;` (#dd1a83).
+  - Superficie: `--color-surface-rgb: 255 255 255;` (Blanco puro).
+- **Tokens de Header (Herencia sin Duplicación):**
+  - `--color-header-bar-bg-rgb: 0 0 0;` (Barra superior negra).
+  - `--color-header-bar-text-rgb: 255 255 255;`
+  - `--color-header-icon-rgb: var(--color-on-surface-rgb);` (Íconos oscuros).
+  - `--color-header-icon-hover-rgb: var(--color-primary-rgb);` (Hover fucsia).
 - **Bordes y Redondeos:**
-  - Botones y chips con curvaturas suaves: `--radius-btn: 9999px` (estilo píldora).
-  - Contenedores con radio suave: `--radius-default: 8px`.
+  - Píldora: `--radius-btn: 9999px;`, `--radius-badge: 9999px;`
+  - Superficies: `--radius-default: 0.75rem;`, `--radius-lg: 1rem;`, `--radius-xl: 1.5rem;`
+- **Geometría de Medios:**
+  - Hero: `.sw-hero__media, .atr-hero__media` (`aspect-ratio: 3/4` en móvil, `height: 380px` en desktop).
+  - Portales: `.sw-hero-split, .gs-hero-split` (`min-height: 400px` en móvil, `height: 480px` en desktop).
 
 ---
 
@@ -106,3 +106,4 @@ Para desplegar actualizaciones en el servidor productivo de Atrevidas:
 cd /ruta-a-tu-web/wp-content/themes/theme-atrevidas-child
 git pull origin main
 ```
+
